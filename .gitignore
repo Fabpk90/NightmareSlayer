@@ -114,3 +114,6 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
+\.idea/\.idea\.NightmareSlayer/\.idea/indexLayout\.xml
+
+Assets/Plugins/Editor/JetBrains/JetBrains\.Rider\.Unity\.Editor\.Plugin\.Repacked\.dll

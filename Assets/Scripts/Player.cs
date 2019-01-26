@@ -34,6 +34,7 @@ public class Player : Deathable
     public bool canAttack = true;
     public bool isAttacking = false;
     public bool isOnGround;
+    public bool dashGroundReset = true;
     
 
     private Rigidbody2D rigidBody;
@@ -48,6 +49,13 @@ public class Player : Deathable
     private void Update()
     {
         isOnGround = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Floor"));
+        
+        // Allow to dash if player didn't hit the ground yet after a dash
+        if (isOnGround)
+        {
+            dashGroundReset = true;
+        }
+        
         animator.SetBool("isOnGround", isOnGround);
         
         if (hasControl && isOnGround && Input.GetKeyDown(KeyCode.Joystick1Button0) && !isAttacking && !isDashing)
@@ -55,10 +63,8 @@ public class Player : Deathable
             willJumpNextFixedFrame = true;
         }
 
-        if (hasControl && (Input.GetKeyDown(KeyCode.Joystick1Button4) || Input.GetKeyDown(KeyCode.Joystick1Button5)) && canDash && !isDashing)
+        if (hasControl && (Input.GetKeyDown(KeyCode.Joystick1Button4) || Input.GetKeyDown(KeyCode.Joystick1Button5)) && canDash && !isDashing && dashGroundReset)
         {
-            isDashing = true;
-            animator.SetBool("isDashing", isDashing);
             StartCoroutine(Dash());
         }
         
@@ -67,7 +73,7 @@ public class Player : Deathable
             StartCoroutine(Attack());
         }
         
-        animator.SetFloat("xVelocity", rigidBody.velocity.x);
+        animator.SetInteger("xVelocity", Mathf.RoundToInt(Mathf.Abs(rigidBody.velocity.x * 100)));
 
     }
 
@@ -139,6 +145,7 @@ public class Player : Deathable
 
     private IEnumerator Dash()
     {
+        dashGroundReset = false;
         rigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
         rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0);
         isDashing = true;
