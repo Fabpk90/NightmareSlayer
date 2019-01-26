@@ -88,6 +88,7 @@ public class Boss : Actor
         if (player)
         {
             player.TakeDamage(damageWhenCollide);
+            print("Player hit boss -2 hp");
         }
     }
 
