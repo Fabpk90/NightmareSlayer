@@ -38,7 +38,7 @@ public class Player : Deathable
     public bool dashGroundReset = true;
     
 
-    private Rigidbody2D rigidBody;
+    public Rigidbody2D rigidBody;
     private Vector2 movement;
 
     protected override void OnStart()
@@ -234,5 +234,15 @@ public class Player : Deathable
     protected override void OnDie()
     {
         gameObject.SetActive(false);
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "BossFightTrigger")
+        {
+            GameManager.instance.LockBossRoom();
+            Destroy(other.gameObject);
+        }
     }
 }

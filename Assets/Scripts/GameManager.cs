@@ -8,11 +8,17 @@ public class GameManager : MonoBehaviour
     public Player player;
     public bool gameHasStarted = false;
     public GameObject titleScreenUi;
-    
+    public CameraManager camera;
+    public GameObject Door;
+    public static GameManager instance;
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
 
     // Update is called once per frame
@@ -28,5 +34,17 @@ public class GameManager : MonoBehaviour
                 player.hasControl = true;
             }
         }
+    }
+
+    public void GiveControls(bool hasControl)
+    {
+        player.rigidBody.velocity = Vector2.zero;
+        player.hasControl = hasControl;
+    }
+
+    public void LockBossRoom()
+    {
+        Door.SetActive(true);
+        camera.FixPositionForBossFight();
     }
 }
