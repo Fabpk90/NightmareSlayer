@@ -49,7 +49,13 @@ public class Player : Deathable
 
     private void Update()
     {
+        bool oldIsOnGround = isOnGround;
         isOnGround = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Floor"));
+
+        if (!oldIsOnGround && isOnGround)
+        {
+            FMODUnity.RuntimeManager.PlayOneShot("event:/Char_Fall", transform.position);
+        }
         
         // Allow to dash if player didn't hit the ground yet after a dash
         if (isOnGround)
@@ -83,6 +89,7 @@ public class Player : Deathable
         if (willJumpNextFixedFrame)
         {
             rigidBody.AddForce(new Vector2(0, jumpForce));
+            FMODUnity.RuntimeManager.PlayOneShot("event:/Char_Jump", transform.position);
             willJumpNextFixedFrame = false;
             isOnGround = false;
             animator.SetBool("isOnGround", isOnGround);
@@ -187,6 +194,9 @@ public class Player : Deathable
         canDash = false;
         canAttack = false;
         
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Char_Attack", transform.position);
+
+        
         animator.SetBool("isAttacking", true);
         yield return null;
         animator.SetBool("isAttacking", false);
@@ -218,6 +228,7 @@ public class Player : Deathable
 
     public override void TakeDamage(int amount)
     {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Char_Hit", transform.position);
         if (health - amount <= 0)
         {
             health = 0;
@@ -244,5 +255,10 @@ public class Player : Deathable
             GameManager.instance.LockBossRoom();
             Destroy(other.gameObject);
         }
+    }
+
+    public void MakeStepSound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Char_Moving", transform.position);
     }
 }

@@ -13,14 +13,17 @@ MonoBehaviour:
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
   EditorBanks:
-  - {fileID: 114565759048529318}
-  - {fileID: 114995849581100628}
+  - {fileID: 114912220454583916}
+  - {fileID: 114338695647615914}
   EditorEvents:
-  - {fileID: 114494914124831332}
-  - {fileID: 114088746638601744}
-  MasterBankRef: {fileID: 114995849581100628}
-  StringsBankRef: {fileID: 114565759048529318}
-  stringsBankWriteTime: 636840905125716135
+  - {fileID: 114800580201929522}
+  - {fileID: 114269759608229544}
+  - {fileID: 114445625444641190}
+  - {fileID: 114589827411082100}
+  - {fileID: 114332129514264530}
+  MasterBankRef: {fileID: 114338695647615914}
+  StringsBankRef: {fileID: 114912220454583916}
+  stringsBankWriteTime: 636840719100000000
   cacheVersion: 2
 --- !u!114 &114088746638601744
 MonoBehaviour:
@@ -45,6 +48,138 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 5760
+--- !u!114 &114269759608229544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Char_Jump
+  guid: 38d66ed96e86184fb7cd66ea9f101b7d
+  Banks:
+  - {fileID: 114338695647615914}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3000
+--- !u!114 &114332129514264530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Char_Fall
+  guid: ca6a02c68179b04982f7e5564950032c
+  Banks:
+  - {fileID: 114338695647615914}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3000
+--- !u!114 &114338695647615914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: E:\Docs E\Ressources\Project Files\Knightmare Slayer\TESTFmod\Build\Desktop\Master
+    Bank.bank
+  lastModified: 636840719080000000
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 169088
+  Exists: 1
+--- !u!114 &114400162587701394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: E:\Docs E\Ressources\Project Files\Knightmare Slayer\TESTFmod\Build\Desktop\Master
+    Bank.bank
+  lastModified: 636840905125686211
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 463136
+  Exists: 1
+--- !u!114 &114445625444641190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Char_Moving
+  guid: 4bb6f4e0ed386e40b62e6595349f7c3d
+  Banks:
+  - {fileID: 114338695647615914}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 2000
+--- !u!114 &114492858834570178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/mus_boss_2
+  guid: 5d3cc57236866c4486c1fdaa17b04db5
+  Banks:
+  - {fileID: 114400162587701394}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 26800
 --- !u!114 &114494914124831332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,6 +216,115 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: C:\Users\Fab\TESTFmod\Build\Desktop\Master Bank.strings.bank
+  lastModified: 636840905125716135
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 768
+  Exists: 1
+--- !u!114 &114589827411082100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Char_Attack
+  guid: 5bd8bf7710bdb34f9f5581a5221ede6d
+  Banks:
+  - {fileID: 114338695647615914}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
+--- !u!114 &114628937739352146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/bird
+  guid: 91ce93926b187243a46b4aa814140418
+  Banks:
+  - {fileID: 114400162587701394}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 5760
+--- !u!114 &114800580201929522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Char_Hit
+  guid: 375a2b6decf80f469a5b857aab74e058
+  Banks:
+  - {fileID: 114338695647615914}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 45225
+--- !u!114 &114912220454583916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: E:\Docs E\Ressources\Project Files\Knightmare Slayer\TESTFmod\Build\Desktop\Master
+    Bank.strings.bank
+  lastModified: 636840719100000000
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 874
+  Exists: 1
+--- !u!114 &114946843431866042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: E:\Docs E\Ressources\Project Files\Knightmare Slayer\TESTFmod\Build\Desktop\Master
+    Bank.strings.bank
   lastModified: 636840905125716135
   LoadResult: 0
   FileSizes:

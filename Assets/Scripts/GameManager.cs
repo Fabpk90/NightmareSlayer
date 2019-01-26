@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
+        
+        FMODUnity.RuntimeManager.SetListenerLocation(camera.gameObject);
 
         Cursor.visible = false;
     }
@@ -35,6 +37,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log("Game Started");
                 titleScreenUi.SetActive(false);
                 player.hasControl = true;
+                FMODUnity.RuntimeManager.SetListenerLocation(player.gameObject);
             }
         }
     }

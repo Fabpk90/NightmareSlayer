@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HasSourceProject: 1
   HasPlatforms: 1
-  sourceProjectPath: C:\Users\Fab\TESTFmod\TESTFmod.fspro
-  SourceProjectPathUnformatted: C:\Users\Fab\TESTFmod\TESTFmod.fspro
-  SourceBankPathUnformatted: C:\Users\Fab\TESTFmod\Build
+  sourceProjectPath: E:\Docs E\Ressources\Project Files\Knightmare Slayer\TESTFmod\TESTFmod.fspro
+  SourceProjectPathUnformatted: E:\Docs E\Ressources\Project Files\Knightmare Slayer\TESTFmod\TESTFmod.fspro
+  SourceBankPathUnformatted: E:\Docs E\Ressources\Project Files\Knightmare Slayer\TESTFmod\Build
   AutomaticEventLoading: 1
   AutomaticSampleLoading: 0
   ImportType: 0
@@ -58,5 +58,5 @@ MonoBehaviour:
   - Platform: 2
     Value: 32
   Plugins: []
-  MasterBank: 
+  MasterBank: Master Bank
   Banks: []
