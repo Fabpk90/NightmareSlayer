@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Experimental.PlayerLoop;
 
-public class Player : Actor
+public class Player : Deathable
 {
     [Header("General setup")]
     public Transform groundCheck;
@@ -19,7 +19,6 @@ public class Player : Actor
     public float dashCooldown;
     public float dashDistance;
     public float dashDuration;
-    public int maxHealth;
     public int attackDamage;
     
     
@@ -31,22 +30,13 @@ public class Player : Actor
     public bool canDash = true;
     public bool canAttack = true;
 
-    [Header("Player status")] 
-    public int currentHealth;
-
-
     private Rigidbody2D rigidBody;
     private Vector2 movement;
 
-    private void Start()
+    protected override void OnStart()
     {
+        base.OnStart();
         rigidBody = GetComponent<Rigidbody2D>();
-        currentHealth = maxHealth;
-    }
-
-    protected override void Shoot()
-    {
-        
     }
 
     private void Update()
@@ -128,19 +118,6 @@ public class Player : Actor
         }
     }
 
-    public void TakeDamage(int damage)
-    {
-        if (currentHealth - damage < 0)
-        {
-            currentHealth = 0;
-            // TODO : Death
-        }
-        else
-        {
-            currentHealth -= damage;
-        }
-    }
-
     private void FlipCharacter()
     {
         isFacingRight = !isFacingRight;
@@ -152,6 +129,7 @@ public class Player : Actor
     {
         rigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
         isDashing = true;
+        canDash = false;
         animator.SetBool("isDashing", isDashing);
         float startX = transform.localPosition.x;
         float endX = 0;
