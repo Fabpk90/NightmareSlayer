@@ -23,6 +23,7 @@ public class Player : Deathable
     public float attackRecovery;
     public float attackHitboxDuration;
     public GameObject attackHitbox;
+    public GameObject attackHitboxPrefab;
     public float attackDashCancel;
     
     
@@ -77,7 +78,7 @@ public class Player : Deathable
         
         if (hasControl && Input.GetKeyDown(KeyCode.Joystick1Button2) && canAttack)
         {
-            StartCoroutine(Attack());
+            Attack();
         }
         
         animator.SetInteger("xVelocity", Mathf.RoundToInt(Mathf.Abs(rigidBody.velocity.x * 100)));
@@ -138,9 +139,8 @@ public class Player : Deathable
             }
             else if (isOnGround && !willJumpNextFixedFrame && !isDashing)
             {
-                rigidBody.velocity = Vector2.zero;
+                rigidBody.velocity = new Vector2(0, rigidBody.velocity.y);
             }
- 
         }
     }
 
@@ -188,29 +188,15 @@ public class Player : Deathable
         canDash = true;
     }
     
-    private IEnumerator Attack()
+    private void Attack()
     {
         isAttacking = true;
         canDash = false;
         canAttack = false;
+
         
         FMODUnity.RuntimeManager.PlayOneShot("event:/Char_Attack", transform.position);
-
-        yield return new WaitForSeconds(attackDelay);
         animator.SetBool("isAttacking", true);
-        yield return null;
-        animator.SetBool("isAttacking", false);
-
-        
-
-        attackHitbox.SetActive(true);
-        yield return new WaitForSeconds(attackHitboxDuration);
-        attackHitbox.SetActive(false);
-
-        yield return new WaitForSeconds(attackRecovery);
-        canDash = true;
-        canAttack = true;
-        isAttacking = false;
     }
 
     private bool isDashInputed()
@@ -246,18 +232,27 @@ public class Player : Deathable
         gameObject.SetActive(false);
     }
 
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.tag != null && other.gameObject.tag == "StartBossTrigger")
-        {
-            GameManager.instance.LockBossRoom();
-            Destroy(other.gameObject);
-        }
-    }
-
     public void MakeStepSound()
     {
         FMODUnity.RuntimeManager.PlayOneShot("event:/Char_Moving", transform.position);
+    }
+
+    public void AttackAnimation()
+    {
+        // attackHitbox.SetActive(true);
+        Instantiate(attackHitboxPrefab, transform);
+        animator.SetBool("isAttacking", false);
+    }
+
+    public void StopAttackAnimation()
+    {
+        // attackHitbox.SetActive(false);
+        foreach (var go in GameObject.FindGameObjectsWithTag("Hitbox"))
+        {
+            Destroy(go);
+        }
+        canDash = true;
+        canAttack = true;
+        isAttacking = false;
     }
 }

@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
             if (Input.anyKey)
             {
                 gameHasStarted = true;
-                Debug.Log("Game Started");
                 titleScreenUi.SetActive(false);
                 player.hasControl = true;
                 FMODUnity.RuntimeManager.SetListenerLocation(player.gameObject);
@@ -66,9 +65,7 @@ public class GameManager : MonoBehaviour
     // Between 0 and 1
     public void SetNightmareAmount(float ratio)
     {
-        Debug.Log(ratio);
         Color oldColor = nightmareOpacityRenderer.color;
         nightmareOpacityRenderer.color = new Color(oldColor.r, oldColor.g, oldColor.b, ratio);
-        Debug.Log(nightmareOpacityRenderer.color);
     }
 }

@@ -7,6 +7,7 @@ TagManager:
   - Floor
   - Boss
   - StartBossTrigger
+  - Hitbox
   layers:
   - Default
   - TransparentFX

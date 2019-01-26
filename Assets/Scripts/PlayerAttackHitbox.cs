@@ -11,13 +11,13 @@ public class PlayerAttackHitbox : MonoBehaviour
         damage = GetComponentInParent<Player>().attackDamage;
     }
 
-
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (other.gameObject.tag== "Boss")
         {
             var boss = other.gameObject.GetComponent<Boss>();
             boss.TakeDamage(damage);
+            Debug.Log("Hit boss");
             OnDisable();
         }
     }

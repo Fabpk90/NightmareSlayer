@@ -700,6 +700,7 @@ GameObject:
   m_Component:
   - component: {fileID: 889248625}
   - component: {fileID: 889248624}
+  - component: {fileID: 889248626}
   m_Layer: 0
   m_Name: StartBossTrigger
   m_TagString: StartBossTrigger
@@ -747,6 +748,18 @@ Transform:
   m_Father: {fileID: 194895244}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &889248626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 889248623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fbbfced698ed3b4494914a601feed3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &979733071 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7308326249813496135, guid: 9f6ea269c3357314b8bdd853df409d9a,
@@ -1536,6 +1549,10 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 10.8
       objectReference: {fileID: 0}
+    - target: {fileID: 1180604654, guid: 9f6ea269c3357314b8bdd853df409d9a, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1180604653, guid: 9f6ea269c3357314b8bdd853df409d9a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9f6ea269c3357314b8bdd853df409d9a, type: 3}
@@ -1677,6 +1694,12 @@ PrefabInstance:
       propertyPath: willJumpNextFixedFrame
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1586957282272152452, guid: 6c5c3d7f1d2a051408275ee0540bf2e1,
+        type: 3}
+      propertyPath: attackHitboxPrefab
+      value: 
+      objectReference: {fileID: 6513943115297098212, guid: e32fb810f093bb14a86f9cd05c700791,
+        type: 3}
     - target: {fileID: 1586957282272152449, guid: 6c5c3d7f1d2a051408275ee0540bf2e1,
         type: 3}
       propertyPath: m_Sprite
@@ -1716,12 +1739,12 @@ PrefabInstance:
     - target: {fileID: 1586957282272152451, guid: 6c5c3d7f1d2a051408275ee0540bf2e1,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 6.25
+      value: 4.46
       objectReference: {fileID: 0}
     - target: {fileID: 1586957282272152451, guid: 6c5c3d7f1d2a051408275ee0540bf2e1,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 2.59
+      value: 2.13
       objectReference: {fileID: 0}
     - target: {fileID: 1586957282272152451, guid: 6c5c3d7f1d2a051408275ee0540bf2e1,
         type: 3}
@@ -1791,7 +1814,7 @@ PrefabInstance:
     - target: {fileID: 6655034700403139957, guid: 6c5c3d7f1d2a051408275ee0540bf2e1,
         type: 3}
       propertyPath: m_Color.a
-      value: 0
+      value: 0.88235295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c5c3d7f1d2a051408275ee0540bf2e1, type: 3}

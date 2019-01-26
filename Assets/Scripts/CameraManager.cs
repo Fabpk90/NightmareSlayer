@@ -42,7 +42,6 @@ public class CameraManager : MonoBehaviour
     private IEnumerator FixPosition()
     {
         GameManager.instance.GiveControls(false);
-        Debug.Log("Camera Go To Fixed");
 
         float xStart = transform.position.x;
         float startTime = Time.time;
