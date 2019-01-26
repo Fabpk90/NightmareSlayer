@@ -35,19 +35,24 @@ public class Boss : Actor
     [Range(0.1f, 10f)]
     public float cooldownBetweenPhase;
 
-    private Random random;
+    public int damageWhenCollide;
+
+    [Range(0.05f, 1f)]
+    public float probabilityMovementPhase;
+    
     private float lerpIncrement;
 
     private bool nextWaveIsToBeActivated;
+
+    private int waveIndex;
     
     protected override void OnStart()
     {
         base.OnStart();
-        
-        random = new Random();
 
         lerpIncrement = 0;
         nextWaveIsToBeActivated = true;
+        waveIndex = 0;
         
         StartCoroutine(WaveManager());
     }
@@ -59,8 +64,6 @@ public class Boss : Actor
 
     protected override void Shoot()
     {
-        print("The boss is shooting");
-
         if (player != null)
         {
             var position = player.transform.position;
@@ -78,29 +81,39 @@ public class Boss : Actor
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        var player = other.gameObject.GetComponent<Player>();
+
+        if (player)
+        {
+            player.TakeDamage(damageWhenCollide);
+        }
+    }
+
     IEnumerator WaveManager()
     {
         while (true)
         {
             if (nextWaveIsToBeActivated)
             {
-                for (int i = 0; i < listWave.Count; i++)
+                nextWaveIsToBeActivated = false;
+                switch (listWave[(waveIndex++) % listWave.Count])
+                {
+                    case EWaveType.PROJECTILE:
+                        StartCoroutine(ProjectileWave());                      
+                        break;
+                
+                    case EWaveType.MOVEMENT:
+                        StartCoroutine(MovingBoss());
+                        break;
+                }
+
+                /*if (Random.Range(0f,1f) < probabilityMovementPhase)
                 {
                     nextWaveIsToBeActivated = false;
-                    switch (listWave[i])
-                    {
-                        case EWaveType.PROJECTILE:
-
-                            StartCoroutine(ProjectileWave());                      
-                            break;
-                    
-                        case EWaveType.MOVEMENT:
-                            StartCoroutine(MovingBoss());
-                            break;
-                    }
-                }
-                
-                //TODO: random pick between the phase
+                    StartCoroutine(MovingBoss());
+                }*/
             }
             
             yield return  new WaitForSeconds(.5f);
@@ -134,6 +147,7 @@ public class Boss : Actor
         }
 
         isOnTheLeft = !isOnTheLeft;
+        lerpIncrement = 0;
         
         yield return  new WaitForSeconds(cooldownBetweenPhase);
         nextWaveIsToBeActivated = true;
