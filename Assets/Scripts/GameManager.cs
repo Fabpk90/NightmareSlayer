@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public Boss boss;
     public float bossNightmareAmount = 1;
-    public SpriteRenderer nightmareOpacityRenderer;
+    public List<SpriteRenderer> nightmareSprites = new List<SpriteRenderer>();
     
     // Start is called before the first frame update
     void Awake()
@@ -62,10 +62,14 @@ public class GameManager : MonoBehaviour
         boss.gameObject.SetActive(true);
     }
 
-    // Between 0 and 1
     public void SetNightmareAmount(float ratio)
     {
-        Color oldColor = nightmareOpacityRenderer.color;
-        nightmareOpacityRenderer.color = new Color(oldColor.r, oldColor.g, oldColor.b, ratio);
+        foreach (var spriteColor in nightmareSprites)
+        {
+            Color oldColor = spriteColor.color;
+            spriteColor.color = new Color(oldColor.r, oldColor.g, oldColor.b, ratio);
+        }
+        
+        
     }
 }
