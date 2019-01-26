@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Experimental.PlayerLoop;
 
-public class Player : MonoBehaviour
+public class Player : Actor
 {
     [Header("General setup")]
     public Transform groundCheck;
@@ -44,6 +44,10 @@ public class Player : MonoBehaviour
         currentHealth = maxHealth;
     }
 
+    protected override void Shoot()
+    {
+        
+    }
 
     private void Update()
     {
