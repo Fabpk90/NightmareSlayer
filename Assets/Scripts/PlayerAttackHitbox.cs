@@ -16,8 +16,8 @@ public class PlayerAttackHitbox : MonoBehaviour
     {
         if (other.gameObject.tag== "Boss")
         {
-            // TODO : Remove health of enemy
-            Debug.Log("Boss collision");
+            var boss = other.gameObject.GetComponent<Boss>();
+            boss.TakeDamage(damage);
             OnDisable();
         }
     }
