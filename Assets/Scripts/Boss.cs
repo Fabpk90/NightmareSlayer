@@ -35,10 +35,14 @@ public class Boss : Actor
     [Range(0.1f, 10f)]
     public float cooldownBetweenPhase;
 
+    public int damageWhenCollide;
+
     private Random random;
     private float lerpIncrement;
 
     private bool nextWaveIsToBeActivated;
+
+    private int waveIndex;
     
     protected override void OnStart()
     {
@@ -48,6 +52,7 @@ public class Boss : Actor
 
         lerpIncrement = 0;
         nextWaveIsToBeActivated = true;
+        waveIndex = 0;
         
         StartCoroutine(WaveManager());
     }
@@ -78,28 +83,33 @@ public class Boss : Actor
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        var player = other.gameObject.GetComponent<Player>();
+
+        if (player)
+        {
+            player.TakeDamage(damageWhenCollide);
+        }
+    }
+
     IEnumerator WaveManager()
     {
         while (true)
         {
             if (nextWaveIsToBeActivated)
             {
-                for (int i = 0; i < listWave.Count; i++)
+                nextWaveIsToBeActivated = false;
+                switch (listWave[(waveIndex++) % listWave.Count])
                 {
-                    nextWaveIsToBeActivated = false;
-                    switch (listWave[i])
-                    {
-                        case EWaveType.PROJECTILE:
-
-                            StartCoroutine(ProjectileWave());                      
-                            break;
-                    
-                        case EWaveType.MOVEMENT:
-                            StartCoroutine(MovingBoss());
-                            break;
-                    }
-                }
+                    case EWaveType.PROJECTILE:
+                        StartCoroutine(ProjectileWave());                      
+                        break;
                 
+                    case EWaveType.MOVEMENT:
+                        StartCoroutine(MovingBoss());
+                        break;
+                }   
                 //TODO: random pick between the phase
             }
             
