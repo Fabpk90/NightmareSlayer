@@ -196,13 +196,12 @@ public class Player : Deathable
         
         FMODUnity.RuntimeManager.PlayOneShot("event:/Char_Attack", transform.position);
 
-        
+        yield return new WaitForSeconds(attackDelay);
         animator.SetBool("isAttacking", true);
         yield return null;
         animator.SetBool("isAttacking", false);
 
         
-        yield return new WaitForSeconds(attackDelay);
 
         attackHitbox.SetActive(true);
         yield return new WaitForSeconds(attackHitboxDuration);
