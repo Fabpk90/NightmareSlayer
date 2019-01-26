@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Actor
 {
     public float movementSpeed;
 
@@ -14,6 +14,11 @@ public class Player : MonoBehaviour
     private void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
+    }
+
+    protected override void Shoot()
+    {
+        
     }
 
     private void OnCollisionEnter2D(Collision2D other)
