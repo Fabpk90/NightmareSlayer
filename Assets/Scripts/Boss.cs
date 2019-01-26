@@ -144,6 +144,7 @@ public class Boss : Actor
         }
 
         isOnTheLeft = !isOnTheLeft;
+        lerpIncrement = 0;
         
         yield return  new WaitForSeconds(cooldownBetweenPhase);
         nextWaveIsToBeActivated = true;
