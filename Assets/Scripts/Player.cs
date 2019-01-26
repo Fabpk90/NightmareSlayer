@@ -58,7 +58,7 @@ public class Player : Deathable
 
         if (!oldIsOnGround && isOnGround)
         {
-            FMODUnity.RuntimeManager.PlayOneShot("event:/Char_Fall", transform.position);
+            FMODUnity.RuntimeManager.PlayOneShot("event:/Char/Char_Fall", transform.position);
         }
         
         // Allow to dash if player didn't hit the ground yet after a dash
@@ -93,7 +93,7 @@ public class Player : Deathable
         if (willJumpNextFixedFrame)
         {
             rigidBody.AddForce(new Vector2(0, jumpForce));
-            FMODUnity.RuntimeManager.PlayOneShot("event:/Char_Jump", transform.position);
+            FMODUnity.RuntimeManager.PlayOneShot("event:/Char/Char_Jump", transform.position);
             willJumpNextFixedFrame = false;
             isOnGround = false;
             animator.SetBool("isOnGround", isOnGround);
@@ -198,7 +198,7 @@ public class Player : Deathable
         canAttack = false;
 
         
-        FMODUnity.RuntimeManager.PlayOneShot("event:/Char_Attack", transform.position);
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Char/Char_Attack", transform.position);
         animator.SetBool("isAttacking", true);
 
     }
@@ -217,7 +217,7 @@ public class Player : Deathable
 
     public override void TakeDamage(int amount)
     {
-        FMODUnity.RuntimeManager.PlayOneShot("event:/Char_Hit", transform.position);
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Char/Char_Hit", transform.position);
         if (health - amount <= 0)
         {
             health = 0;
@@ -238,7 +238,7 @@ public class Player : Deathable
 
     public void MakeStepSound()
     {
-        FMODUnity.RuntimeManager.PlayOneShot("event:/Char_Moving", transform.position);
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Char/Char_Moving", transform.position);
     }
 
     public void AttackAnimation()
