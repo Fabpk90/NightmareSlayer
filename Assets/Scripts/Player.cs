@@ -63,7 +63,7 @@ public class Player : Deathable
             willJumpNextFixedFrame = true;
         }
 
-        if (hasControl && (Input.GetKeyDown(KeyCode.Joystick1Button4) || Input.GetKeyDown(KeyCode.Joystick1Button5)) && canDash && !isDashing && dashGroundReset)
+        if (hasControl && isDashInputed() && canDash && !isDashing && dashGroundReset)
         {
             StartCoroutine(Dash());
         }
@@ -167,10 +167,13 @@ public class Player : Deathable
         {
            rigidBody.MovePosition(new Vector2(Mathf.Lerp(startX, endX, lerpIncrement), rigidBody.position.y));
             lerpIncrement += Time.deltaTime / dashDuration;
+            if (lerpIncrement > 0.25)
+            {
+                canAttack = true;
+            }
             yield return null;
         }
         isDashing = false;
-        canAttack = true;
         rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
         
         yield return new WaitForSeconds(dashCooldown);
@@ -182,7 +185,11 @@ public class Player : Deathable
         isAttacking = true;
         canDash = false;
         canAttack = false;
+        
         animator.SetBool("isAttacking", true);
+        yield return null;
+        animator.SetBool("isAttacking", false);
+
         
         yield return new WaitForSeconds(attackDelay);
 
@@ -194,6 +201,17 @@ public class Player : Deathable
         canDash = true;
         canAttack = true;
         isAttacking = false;
-        animator.SetBool("isAttacking", false);
+    }
+
+    private bool isDashInputed()
+    {
+        if (Input.GetKeyDown(KeyCode.Joystick1Button4) 
+            || Input.GetKeyDown(KeyCode.Joystick1Button5) 
+            || Input.GetAxis("DashLeft") > 0.15f
+            || Input.GetAxis("DashRight") > 0.15f)
+        {
+            return true;
+        }
+        return false;
     }
 }
