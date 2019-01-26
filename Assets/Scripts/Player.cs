@@ -239,7 +239,7 @@ public class Player : Deathable
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "BossFightTrigger")
+        if (other.gameObject.tag != null && other.gameObject.tag == "StartBossTrigger")
         {
             GameManager.instance.LockBossRoom();
             Destroy(other.gameObject);

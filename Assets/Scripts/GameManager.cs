@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
+
+        Cursor.visible = false;
     }
 
     // Update is called once per frame

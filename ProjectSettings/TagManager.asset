@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Floor
   - Boss
-  - BossFightTrigger
+  - StartBossTrigger
   layers:
   - Default
   - TransparentFX
