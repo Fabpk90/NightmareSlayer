@@ -18,6 +18,7 @@ public class Player : Deathable
     public float dashCooldown;
     public float dashDistance;
     public float dashDuration;
+    public float attackDistance;
     public int attackDamage;
     public float attackDelay;
     public float attackRecovery;
@@ -38,6 +39,7 @@ public class Player : Deathable
     public bool isAttacking = false;
     public bool isOnGround;
     public bool dashGroundReset = true;
+    
     
 
     public Rigidbody2D rigidBody;
@@ -253,10 +255,14 @@ public class Player : Deathable
         // attackHitbox.SetActive(true);
        
         animator.SetBool("isAttacking", false);
-        
-        
-        var hit = Physics2D.Raycast(raycastPosition.transform.position, Vector2.up, 10f);
-        if (hit)
+
+
+        RaycastHit2D[] hits;
+
+        hits = Physics2D.RaycastAll(raycastPosition.transform.position
+            , Vector2.right * (isFacingRight ? 1 : -1), attackDistance);
+
+        foreach (var hit in hits)
         {
             var Boss = hit.transform.GetComponent<Boss>();
             if (Boss)
