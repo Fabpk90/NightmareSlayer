@@ -37,7 +37,9 @@ public class Boss : Actor
 
     public int damageWhenCollide;
 
-    private Random random;
+    [Range(0.05f, 1f)]
+    public float probabilityMovementPhase;
+    
     private float lerpIncrement;
 
     private bool nextWaveIsToBeActivated;
@@ -47,8 +49,6 @@ public class Boss : Actor
     protected override void OnStart()
     {
         base.OnStart();
-        
-        random = new Random();
 
         lerpIncrement = 0;
         nextWaveIsToBeActivated = true;
@@ -64,8 +64,6 @@ public class Boss : Actor
 
     protected override void Shoot()
     {
-        print("The boss is shooting");
-
         if (player != null)
         {
             var position = player.transform.position;
@@ -109,8 +107,13 @@ public class Boss : Actor
                     case EWaveType.MOVEMENT:
                         StartCoroutine(MovingBoss());
                         break;
-                }   
-                //TODO: random pick between the phase
+                }
+
+                if (Random.Range(0f,1f) < probabilityMovementPhase)
+                {
+                    nextWaveIsToBeActivated = false;
+                    StartCoroutine(MovingBoss());
+                }
             }
             
             yield return  new WaitForSeconds(.5f);
