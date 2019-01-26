@@ -18,16 +18,21 @@ public class Projectile : MonoBehaviour
             .AddForce((destination - transform.position).normalized * speed);
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         var go = other.gameObject;
         var actor = go.GetComponent<Deathable>();
         
-        if (actor && actor != owner)
+        if (actor)
         {
-            actor.TakeDamage(damage);
+            if (actor != owner)
+            {
+                actor.TakeDamage(damage);
+                Destroy(gameObject);
+            }
+            
         }
-        
-        Destroy(gameObject);
+        else
+            Destroy(gameObject);
     }
 }

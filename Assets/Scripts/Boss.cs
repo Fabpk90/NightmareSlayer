@@ -45,8 +45,6 @@ public class Boss : Actor
                 .GetComponent<Projectile>()
                 .Shoot(playerPosition, this);
         }
-
-        
     }
 
     IEnumerator ProjectileWave()
