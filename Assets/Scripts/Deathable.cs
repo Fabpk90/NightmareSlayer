@@ -16,10 +16,18 @@ public class Deathable : MonoBehaviour
         health = maxHealth;
     }
 
-    public void TakeDamage(int amount)
+    public virtual void TakeDamage(int amount)
     {
         if (health - amount <= 0)
+        {
+            health = 0;
             OnDie();
+        }
+        else
+        {
+            health -= amount;
+        }
+            
     }
 
     protected virtual void OnDie()

@@ -59,7 +59,7 @@ public class Player : Deathable
         
         animator.SetBool("isOnGround", isOnGround);
         
-        if (hasControl && isOnGround && Input.GetKeyDown(KeyCode.Joystick1Button0) && !isAttacking && !isDashing)
+        if (hasControl && isOnGround && Input.GetKeyDown(KeyCode.Joystick1Button0) && !isDashing)
         {
             willJumpNextFixedFrame = true;
         }
@@ -214,5 +214,25 @@ public class Player : Deathable
             return true;
         }
         return false;
+    }
+
+    public override void TakeDamage(int amount)
+    {
+        if (health - amount <= 0)
+        {
+            health = 0;
+            OnDie();
+        }
+        else
+        {
+            health -= amount;
+        }
+        
+        // base.TakeDamage(amount);
+    }
+
+    protected override void OnDie()
+    {
+        gameObject.SetActive(false);
     }
 }
