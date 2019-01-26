@@ -24,7 +24,6 @@ public class PlayerAttackHitbox : MonoBehaviour
 
     private void OnDisable()
     {
-        Debug.Log("OnDisable");
         gameObject.SetActive(false);
     }
 }
