@@ -109,11 +109,11 @@ public class Boss : Actor
                         break;
                 }
 
-                if (Random.Range(0f,1f) < probabilityMovementPhase)
+                /*if (Random.Range(0f,1f) < probabilityMovementPhase)
                 {
                     nextWaveIsToBeActivated = false;
                     StartCoroutine(MovingBoss());
-                }
+                }*/
             }
             
             yield return  new WaitForSeconds(.5f);
