@@ -20,6 +20,10 @@ public class Player : Deathable
     public float dashDistance;
     public float dashDuration;
     public int attackDamage;
+    public float attackDelay;
+    public float attackRecovery;
+    public float attackHitboxDuration;
+    public GameObject attackHitbox;
     
     
     [Header("Player movement status")]
@@ -29,6 +33,8 @@ public class Player : Deathable
     public bool isDashing = false;
     public bool canDash = true;
     public bool canAttack = true;
+    public bool isAttacking = false;
+    
 
     private Rigidbody2D rigidBody;
     private Vector2 movement;
@@ -44,7 +50,7 @@ public class Player : Deathable
         isOnGround = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Floor"));
         animator.SetBool("isOnGround", isOnGround);
         
-        if (hasControl && isOnGround && Input.GetKeyDown(KeyCode.Joystick1Button0))
+        if (hasControl && isOnGround && Input.GetKeyDown(KeyCode.Joystick1Button0) && !isAttacking && !isDashing)
         {
             willJumpNextFixedFrame = true;
         }
@@ -55,6 +61,12 @@ public class Player : Deathable
             animator.SetBool("isDashing", isDashing);
             StartCoroutine(Dash());
         }
+        
+        if (hasControl && Input.GetKeyDown(KeyCode.Joystick1Button2) && canAttack)
+        {
+            StartCoroutine(Attack());
+        }
+        
         animator.SetFloat("xVelocity", rigidBody.velocity.x);
 
     }
@@ -128,11 +140,13 @@ public class Player : Deathable
     private IEnumerator Dash()
     {
         rigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+        rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0);
         isDashing = true;
         canDash = false;
+        canAttack = false;
         animator.SetBool("isDashing", isDashing);
         float startX = transform.localPosition.x;
-        float endX = 0;
+        float endX;
         if (isFacingRight)
         {
             endX = startX + dashDistance;
@@ -149,9 +163,28 @@ public class Player : Deathable
             yield return null;
         }
         isDashing = false;
+        canAttack = true;
         rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
         
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
+    }
+    
+    private IEnumerator Attack()
+    {
+        isAttacking = true;
+        canDash = false;
+        canAttack = false;
+        animator.SetBool("isAttacking", true);
+        
+        yield return new WaitForSeconds(attackDelay);
+
+        attackHitbox.SetActive(true);
+
+        yield return new WaitForSeconds(attackRecovery);
+        canDash = true;
+        canAttack = true;
+        isAttacking = false;
+        animator.SetBool("isAttacking", false);
     }
 }
