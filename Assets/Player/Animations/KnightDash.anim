@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: KnightAttack
+  m_Name: KnightDash
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,11 +20,19 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: 826913518934b3040b4e2374c9aa1520, type: 3}
+      value: {fileID: 21300000, guid: 208523387e3951b46bef2c8167175eb7, type: 3}
     - time: 0.083333336
-      value: {fileID: 21300000, guid: 7e03239e45f6b53449414f4282c73afb, type: 3}
+      value: {fileID: 21300000, guid: bd675bb80d5cce147a7873ec0889b8a7, type: 3}
     - time: 0.16666667
-      value: {fileID: 21300000, guid: dfbfd0ceb1d7b9a4c9cc907dda307803, type: 3}
+      value: {fileID: 21300000, guid: 42baff95209e11a41a0da00a01788532, type: 3}
+    - time: 0.25
+      value: {fileID: 21300000, guid: 246753a54edb51d4ba6df496416179ee, type: 3}
+    - time: 0.33333334
+      value: {fileID: 21300000, guid: 4067a1ff105ccdb4abb8df09ab613276, type: 3}
+    - time: 0.41666666
+      value: {fileID: 21300000, guid: 58784192f748688468edd3758e60de24, type: 3}
+    - time: 0.5
+      value: {fileID: 21300000, guid: 06f8f12c3355455458199d7342198849, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -44,15 +52,19 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 826913518934b3040b4e2374c9aa1520, type: 3}
-    - {fileID: 21300000, guid: 7e03239e45f6b53449414f4282c73afb, type: 3}
-    - {fileID: 21300000, guid: dfbfd0ceb1d7b9a4c9cc907dda307803, type: 3}
+    - {fileID: 21300000, guid: 208523387e3951b46bef2c8167175eb7, type: 3}
+    - {fileID: 21300000, guid: bd675bb80d5cce147a7873ec0889b8a7, type: 3}
+    - {fileID: 21300000, guid: 42baff95209e11a41a0da00a01788532, type: 3}
+    - {fileID: 21300000, guid: 246753a54edb51d4ba6df496416179ee, type: 3}
+    - {fileID: 21300000, guid: 4067a1ff105ccdb4abb8df09ab613276, type: 3}
+    - {fileID: 21300000, guid: 58784192f748688468edd3758e60de24, type: 3}
+    - {fileID: 21300000, guid: 06f8f12c3355455458199d7342198849, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.25
+    m_StopTime: 0.5833333
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -72,15 +84,8 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0
-    functionName: AttackAnimation
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.16666667
-    functionName: StopAttackAnimation
+  - time: 0.083333336
+    functionName: MakeDashSound
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

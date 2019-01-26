@@ -160,7 +160,8 @@ public class Player : Deathable
         isDashing = true;
         canDash = false;
         canAttack = false;
-        animator.SetBool("isDashing", isDashing);
+        animator.SetBool("isDashing", true);
+        Debug.Log(animator.GetBool("isDashing"));
         float startX = transform.localPosition.x;
         float endX;
         if (isFacingRight)
@@ -183,6 +184,9 @@ public class Player : Deathable
             yield return null;
         }
         isDashing = false;
+        Debug.Log(animator.GetBool("isDashing"));
+        animator.SetBool("isDashing", false);
+        Debug.Log(animator.GetBool("isDashing"));
         rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
         
         yield return new WaitForSeconds(dashCooldown);
@@ -237,6 +241,11 @@ public class Player : Deathable
     public void MakeStepSound()
     {
         FMODUnity.RuntimeManager.PlayOneShot("event:/Char/Char_Moving", transform.position);
+    }
+    
+    public void MakeDashSound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Char/Char_Dash", transform.position);
     }
 
     public void AttackAnimation()
