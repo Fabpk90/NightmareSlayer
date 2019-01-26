@@ -32,7 +32,7 @@ public class Projectile : MonoBehaviour
             }
             
         }
-        else
+        else if(!go.GetComponent<Projectile>())
             Destroy(gameObject);
     }
 }
