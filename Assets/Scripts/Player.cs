@@ -23,6 +23,7 @@ public class Player : Deathable
     public float attackRecovery;
     public float attackHitboxDuration;
     public GameObject attackHitbox;
+    public float attackDashCancel;
     
     
     [Header("Player movement status")]
@@ -167,7 +168,7 @@ public class Player : Deathable
         {
            rigidBody.MovePosition(new Vector2(Mathf.Lerp(startX, endX, lerpIncrement), rigidBody.position.y));
             lerpIncrement += Time.deltaTime / dashDuration;
-            if (lerpIncrement > 0.6)
+            if (lerpIncrement > attackDashCancel)
             {
                 canAttack = true;
             }

@@ -1219,6 +1219,11 @@ PrefabInstance:
       propertyPath: dashDuration
       value: 0.12
       objectReference: {fileID: 0}
+    - target: {fileID: 1586957282272152452, guid: 6c5c3d7f1d2a051408275ee0540bf2e1,
+        type: 3}
+      propertyPath: attackDashCancel
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 1586957280559840732, guid: 6c5c3d7f1d2a051408275ee0540bf2e1,
         type: 3}
       propertyPath: m_LocalPosition.y
