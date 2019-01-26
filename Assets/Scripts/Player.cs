@@ -15,7 +15,6 @@ public class Player : Deathable
     public float airMovementAcceleration;
     public float maxVelocityX;
     public float jumpForce;
-    public bool isOnGround;
     public float dashCooldown;
     public float dashDistance;
     public float dashDuration;
@@ -34,6 +33,7 @@ public class Player : Deathable
     public bool canDash = true;
     public bool canAttack = true;
     public bool isAttacking = false;
+    public bool isOnGround;
     
 
     private Rigidbody2D rigidBody;
@@ -180,6 +180,8 @@ public class Player : Deathable
         yield return new WaitForSeconds(attackDelay);
 
         attackHitbox.SetActive(true);
+        yield return new WaitForSeconds(attackHitboxDuration);
+        attackHitbox.SetActive(false);
 
         yield return new WaitForSeconds(attackRecovery);
         canDash = true;

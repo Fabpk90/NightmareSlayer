@@ -5,16 +5,12 @@ using UnityEngine;
 public class PlayerAttackHitbox : MonoBehaviour
 {
     private int damage;
-    private float attackHitboxDuration;
-    private Coroutine coroutine;
     
     void Start()
     {
         damage = GetComponentInParent<Player>().attackDamage;
-        attackHitboxDuration = GetComponentInParent<Player>().attackHitboxDuration;
-
-        coroutine = StartCoroutine(DisableAfterDuration());
     }
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -24,13 +20,6 @@ public class PlayerAttackHitbox : MonoBehaviour
             Debug.Log("Boss collision");
             OnDisable();
         }
-    }
-
-    private IEnumerator DisableAfterDuration()
-    {
-        yield return new WaitForSeconds(attackHitboxDuration);
-        Debug.Log("MaxDuration");
-        OnDisable();
     }
 
     private void OnDisable()
