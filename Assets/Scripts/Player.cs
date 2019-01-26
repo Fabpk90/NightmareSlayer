@@ -25,6 +25,7 @@ public class Player : Deathable
     public GameObject attackHitbox;
     public GameObject attackHitboxPrefab;
     public float attackDashCancel;
+    public GameObject raycastPosition;
     
     
     [Header("Player movement status")]
@@ -197,6 +198,7 @@ public class Player : Deathable
         
         FMODUnity.RuntimeManager.PlayOneShot("event:/Char_Attack", transform.position);
         animator.SetBool("isAttacking", true);
+
     }
 
     private bool isDashInputed()
@@ -240,8 +242,19 @@ public class Player : Deathable
     public void AttackAnimation()
     {
         // attackHitbox.SetActive(true);
-        Instantiate(attackHitboxPrefab, transform);
+       
         animator.SetBool("isAttacking", false);
+        
+        
+        var hit = Physics2D.Raycast(raycastPosition.transform.position, Vector2.up, 10f);
+        if (hit)
+        {
+            var Boss = hit.transform.GetComponent<Boss>();
+            if (Boss)
+            {
+                Boss.TakeDamage(attackDamage);
+            }
+        }
     }
 
     public void StopAttackAnimation()
