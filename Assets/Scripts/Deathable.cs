@@ -4,7 +4,7 @@ using UnityEngine;
 public class Deathable : MonoBehaviour
 {
     public int maxHealth;
-    protected int health;
+    public int health;
 
     private void Start()
     {

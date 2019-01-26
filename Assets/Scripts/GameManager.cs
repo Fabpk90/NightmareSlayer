@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public GameObject Door;
     public static GameManager instance;
     public Boss boss;
+    public float bossNightmareAmount = 1;
+    public SpriteRenderer nightmareOpacityRenderer;
     
     // Start is called before the first frame update
     void Awake()
@@ -59,5 +61,14 @@ public class GameManager : MonoBehaviour
         camera.FixPositionForBossFight();
         yield return new WaitForSeconds(3);
         boss.gameObject.SetActive(true);
+    }
+
+    // Between 0 and 1
+    public void SetNightmareAmount(float ratio)
+    {
+        Debug.Log(ratio);
+        Color oldColor = nightmareOpacityRenderer.color;
+        nightmareOpacityRenderer.color = new Color(oldColor.r, oldColor.g, oldColor.b, ratio);
+        Debug.Log(nightmareOpacityRenderer.color);
     }
 }

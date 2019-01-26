@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using UnityEditor;
 using UnityEngine;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
@@ -55,6 +56,13 @@ public class Boss : Actor
         waveIndex = 0;
         
         StartCoroutine(WaveManager());
+    }
+    
+    public override void TakeDamage(int amount) 
+    {
+        base.TakeDamage(amount);
+        float nightmareRatio = (float)health / maxHealth;
+        GameManager.instance.SetNightmareAmount(nightmareRatio);
     }
 
     protected override void OnDie()
