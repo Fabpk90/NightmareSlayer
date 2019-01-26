@@ -105,6 +105,7 @@ MonoBehaviour:
   nbProjectile: 5
   cooldownBetween: 2
   movementDuration: 0
+  cooldownBetweenPhase: 0.1
 --- !u!50 &1180604654
 Rigidbody2D:
   serializedVersion: 4
