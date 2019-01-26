@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public CameraManager camera;
     public GameObject Door;
     public static GameManager instance;
+    public Boss boss;
     
     // Start is called before the first frame update
     void Awake()
@@ -44,7 +45,14 @@ public class GameManager : MonoBehaviour
 
     public void LockBossRoom()
     {
+        StartCoroutine(BossRoomAnimation());
+    }
+
+    private IEnumerator BossRoomAnimation()
+    {
         Door.SetActive(true);
         camera.FixPositionForBossFight();
+        yield return new WaitForSeconds(3);
+        boss.gameObject.SetActive(true);
     }
 }

@@ -59,7 +59,7 @@ public class Boss : Actor
 
     protected override void OnDie()
     {
-        print("The player has defeated the boss");
+        gameObject.SetActive(false);
     }
 
     protected override void Shoot()
