@@ -104,7 +104,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 6bf980667881f974bbc74c3cd066bf1b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 064a7cbdf34fb6c49bce46ae13de373c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 30
   health: 0
   groundCheck: {fileID: 1586957280559840732}
   animator: {fileID: 1586957282272152453}
@@ -186,14 +186,16 @@ MonoBehaviour:
   dashCooldown: 0.25
   dashDistance: 4
   dashDuration: 0.12
-  attackDamage: 1
+  attackDistance: 0
+  attackDamage: 3
   attackDelay: 0
   attackRecovery: 0
   attackHitboxDuration: 0.2
   attackHitbox: {fileID: 5503449311194489424}
-  attackHitboxPrefab: {fileID: 0}
+  attackHitboxPrefab: {fileID: 6513943115297098212, guid: e32fb810f093bb14a86f9cd05c700791,
+    type: 3}
   attackDashCancel: 1
-  raycastPosition: {fileID: 0}
+  raycastPosition: {fileID: 7386267630999034693}
   hasControl: 0
   isFacingRight: 1
   willJumpNextFixedFrame: 0
@@ -273,12 +275,12 @@ PrefabInstance:
     - target: {fileID: 6513943115297098215, guid: e32fb810f093bb14a86f9cd05c700791,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.713
+      value: 1.06
       objectReference: {fileID: 0}
     - target: {fileID: 6513943115297098215, guid: e32fb810f093bb14a86f9cd05c700791,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.084
+      value: -0.19
       objectReference: {fileID: 0}
     - target: {fileID: 6513943115297098215, guid: e32fb810f093bb14a86f9cd05c700791,
         type: 3}
@@ -298,12 +300,12 @@ PrefabInstance:
     - target: {fileID: 6513943115297098215, guid: e32fb810f093bb14a86f9cd05c700791,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.21089825
       objectReference: {fileID: 0}
     - target: {fileID: 6513943115297098215, guid: e32fb810f093bb14a86f9cd05c700791,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.97750807
       objectReference: {fileID: 0}
     - target: {fileID: 6513943115297098215, guid: e32fb810f093bb14a86f9cd05c700791,
         type: 3}
@@ -323,27 +325,12 @@ PrefabInstance:
     - target: {fileID: 6513943115297098215, guid: e32fb810f093bb14a86f9cd05c700791,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6513943115297098215, guid: e32fb810f093bb14a86f9cd05c700791,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 13.914223
-      objectReference: {fileID: 0}
-    - target: {fileID: 6513943115297098215, guid: e32fb810f093bb14a86f9cd05c700791,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 13.914223
-      objectReference: {fileID: 0}
-    - target: {fileID: 6513943115297098215, guid: e32fb810f093bb14a86f9cd05c700791,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 13.914223
+      value: 24.35
       objectReference: {fileID: 0}
     - target: {fileID: 5358562216378519233, guid: e32fb810f093bb14a86f9cd05c700791,
         type: 3}
       propertyPath: m_Color.a
-      value: 0
+      value: 0.88235295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e32fb810f093bb14a86f9cd05c700791, type: 3}

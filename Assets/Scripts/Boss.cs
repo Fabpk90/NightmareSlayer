@@ -67,7 +67,18 @@ public class Boss : Actor
 
     protected override void OnDie()
     {
-        gameObject.SetActive(false);
+        enabled = false;
+        GetComponent<Animator>().SetBool("Dead", true);
+    }
+
+    public void Destroy()
+    {
+        Destroy(gameObject);
+    }
+
+    public void ActivateBoss()
+    {
+        enabled = true;
     }
 
     protected override void Shoot()
