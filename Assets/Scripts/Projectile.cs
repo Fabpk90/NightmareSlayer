@@ -5,7 +5,6 @@ public class Projectile : MonoBehaviour
 {
     public int damage;
     
-    [Range(1, 300)]
     public float speed;
     
     private Deathable owner;
