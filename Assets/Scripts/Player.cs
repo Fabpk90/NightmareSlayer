@@ -167,7 +167,7 @@ public class Player : Deathable
         {
            rigidBody.MovePosition(new Vector2(Mathf.Lerp(startX, endX, lerpIncrement), rigidBody.position.y));
             lerpIncrement += Time.deltaTime / dashDuration;
-            if (lerpIncrement > 0.25)
+            if (lerpIncrement > 0.6)
             {
                 canAttack = true;
             }
