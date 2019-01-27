@@ -20,7 +20,10 @@ public class GameManager : MonoBehaviour
     public List<SpriteRenderer> nightmareSprites = new List<SpriteRenderer>();
     public GameObject winParticles;
     public GameObject bossRightSide;
-    public GameObject bossLeftSide;
+    public GameObject bossLeftSide;    
+    public Image lifeImage;
+    public List<Sprite> lifeSpriteList;
+
 
     
     [Header("Prefabs")]
@@ -36,6 +39,8 @@ public class GameManager : MonoBehaviour
     public Image pressStart;
     public Image background;
     public Image winScreen;
+    
+    
     
     
     // Start is called before the first frame update
@@ -73,6 +78,7 @@ public class GameManager : MonoBehaviour
                 gameHasStarted = true;
                 titleScreenUi.SetActive(false);
                 player.hasControl = true;
+                player.lifeImage.gameObject.SetActive(true);
                 FMODUnity.RuntimeManager.SetListenerLocation(player.gameObject);
                 FMODUnity.RuntimeManager.PlayOneShot("event:/UI/Menu_Validation", transform.position);
             }
@@ -120,6 +126,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator OnDeathRetryBoss()
     {
         Destroy(boss.gameObject);
+        player.lifeImage.gameObject.SetActive(false);
         Destroy(player.gameObject);
         Door.SetActive(false);
         musicManager.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
@@ -129,6 +136,10 @@ public class GameManager : MonoBehaviour
         player = Instantiate(playerPrefab).GetComponent<Player>();
         player.gameObject.SetActive(true);
         player.hasControl = true;
+        player.lifeImage = lifeImage;
+        player.lifeSpriteList = lifeSpriteList;
+        player.lifeImage.sprite = lifeSpriteList[0];
+        player.lifeImage.gameObject.SetActive(true);
         boss = Instantiate(bossPrefab).GetComponent<Boss>();
         boss.gameObject.SetActive(false);
         boss.player = player;
@@ -147,6 +158,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator WinAnimation()
     {
+        player.lifeImage.gameObject.SetActive(false);
         winParticles.SetActive(true);
         yield return new WaitForSeconds(2);
         StartCoroutine(FadeIn(4, winScreen));

@@ -1,8 +1,11 @@
 
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Experimental.PlayerLoop;
+using UnityEngine.UI;
 
 public class Player : Deathable
 {
@@ -39,8 +42,10 @@ public class Player : Deathable
     public bool isAttacking = false;
     public bool isOnGround;
     public bool dashGroundReset = true;
-    
-    
+
+    [Header("Life")] 
+    public Image lifeImage;    
+    public List<Sprite> lifeSpriteList;
 
     public Rigidbody2D rigidBody;
     private Vector2 movement;
@@ -49,6 +54,9 @@ public class Player : Deathable
     {
         base.OnStart();
         rigidBody = GetComponent<Rigidbody2D>();
+        lifeImage = GameManager.instance.lifeImage;
+        lifeImage.gameObject.SetActive(true);
+        lifeSpriteList = GameManager.instance.lifeSpriteList;
     }
 
     private void Update()
@@ -85,7 +93,6 @@ public class Player : Deathable
         }
         
         animator.SetInteger("xVelocity", Mathf.RoundToInt(Mathf.Abs(rigidBody.velocity.x * 100)));
-
     }
 
     private void FixedUpdate()
@@ -221,15 +228,17 @@ public class Player : Deathable
         FMODUnity.RuntimeManager.PlayOneShot("event:/Char/Char_Hit", transform.position);
         if (health - amount <= 0)
         {
+            lifeImage.sprite = lifeSpriteList[14];
             health = 0;
             OnDie();
         }
         else
         {
             health -= amount;
+            var ratio = Mathf.FloorToInt(14 - 14 * health / maxHealth);
+            print(ratio);
+            lifeImage.sprite = lifeSpriteList[ratio];
         }
-        
-        // base.TakeDamage(amount);
     }
 
     protected override void OnDie()
