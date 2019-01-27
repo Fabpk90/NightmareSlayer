@@ -274,7 +274,6 @@ public class Player : Deathable
             var Boss = hit.transform.GetComponent<Boss>();
             if (Boss)
             {
-                print(hit.point);
                 var particle = Instantiate(particleHitSword, new Vector3(hit.point.x, hit.point.y, 0),
                     Quaternion.identity);
                 particle.transform.localScale = new Vector3(particle.transform.localScale.x * (isFacingRight ? 1 : -1),

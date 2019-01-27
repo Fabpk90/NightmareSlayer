@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     public GameObject bossRoomTriggerPrefab;
     public GameObject playerPrefab;
     public GameObject bossPrefab;
+    public GameObject smokeParticle;
     
     
     [Header("Title and win screen")]
@@ -107,6 +108,7 @@ public class GameManager : MonoBehaviour
         boss.gameObject.SetActive(true);
         Door.SetActive(true);
         camera.FixPositionForBossFight();
+        smokeParticle.SetActive(true);
     }
 
     public void SetNightmareAmount(float ratio)
@@ -131,6 +133,7 @@ public class GameManager : MonoBehaviour
 
     public void RetryBoss()
     {
+        smokeParticle.SetActive(false);
         StartCoroutine(OnDeathRetryBoss());
     }
     
@@ -165,6 +168,7 @@ public class GameManager : MonoBehaviour
 
     public void OnWin()
     {
+        smokeParticle.SetActive(false);
         StartCoroutine(WinAnimation());
     }
 

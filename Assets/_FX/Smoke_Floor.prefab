@@ -1,16 +1,17 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2910965547808505418
+--- !u!1 &255761648528314641
 GameObject:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 2910965547808505418, guid: f01c2787024256143bc1b067d64787ae,
+    type: 3}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1545701740210378562}
-  - component: {fileID: 1697732683790550708}
-  - component: {fileID: 786210827726828493}
+  - component: {fileID: 8841860210643537899}
+  - component: {fileID: 1681388959810592763}
+  - component: {fileID: 6945946597645041809}
   m_Layer: 0
   m_Name: Smoke_Floor
   m_TagString: Untagged
@@ -18,13 +19,14 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1545701740210378562
+--- !u!4 &8841860210643537899
 Transform:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 1545701740210378562, guid: f01c2787024256143bc1b067d64787ae,
+    type: 3}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2910965547808505418}
+  m_GameObject: {fileID: 255761648528314641}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.2489958, y: -5.701, z: 3.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,13 +34,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!198 &1697732683790550708
+--- !u!198 &1681388959810592763
 ParticleSystem:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 1697732683790550708, guid: f01c2787024256143bc1b067d64787ae,
+    type: 3}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2910965547808505418}
+  m_GameObject: {fileID: 255761648528314641}
   serializedVersion: 6
   lengthInSec: 5
   simulationSpeed: 1
@@ -185,8 +188,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 1, g: 0.41568628, b: 0.30980393, a: 0.1764706}
-      maxColor: {r: 1, g: 0.8745098, b: 0.6039216, a: 0.23529412}
+      minColor: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 0.1764706}
+      maxColor: {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 0.23529412}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4411,14 +4414,15 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!199 &786210827726828493
+--- !u!199 &6945946597645041809
 ParticleSystemRenderer:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 786210827726828493, guid: f01c2787024256143bc1b067d64787ae,
+    type: 3}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2910965547808505418}
+  m_GameObject: {fileID: 255761648528314641}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
