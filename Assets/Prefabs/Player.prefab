@@ -196,7 +196,9 @@ MonoBehaviour:
     type: 3}
   attackDashCancel: 1
   raycastPosition: {fileID: 7386267630999034693}
-  particleHitSword: {fileID: 2676382518132821685, guid: b0f7d03cb2280e14bb67542e84316a01,
+  particleHitSwordRight: {fileID: 2676382518132821685, guid: b0f7d03cb2280e14bb67542e84316a01,
+    type: 3}
+  particleHitSwordLeft: {fileID: 5568098376092325112, guid: 2a8f841be9cf5f74eb6388ba57aa261a,
     type: 3}
   hasControl: 0
   isFacingRight: 1

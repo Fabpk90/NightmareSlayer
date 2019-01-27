@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
@@ -50,6 +51,8 @@ public class Boss : Actor
 
     private bool nextWaveIsToBeActivated;
 
+    public Slider healthSlider;
+
     private int waveIndex;
     private Animator _animator;
     protected override void OnStart()
@@ -68,6 +71,7 @@ public class Boss : Actor
         FMODUnity.RuntimeManager.PlayOneShot("event:/Boss/Boss_Hit/Boss_hit");
         base.TakeDamage(amount);
         float nightmareRatio = (float)health / maxHealth;
+        healthSlider.value = nightmareRatio;
         GameManager.instance.SetNightmareAmount(nightmareRatio);
     }
 
@@ -88,6 +92,8 @@ public class Boss : Actor
     {
         enabled = true;
         GameManager.instance.GiveControls(true);
+        GameManager.instance.bossUI.SetActive(true);
+        healthSlider = GameManager.instance.healthSlider;
     }
 
     protected override void Shoot()
@@ -116,7 +122,6 @@ public class Boss : Actor
         if (player)
         {
             player.TakeDamage(damageWhenCollide);
-            print("Player hit boss "+damageWhenCollide+" hp");
         }
     }
 
