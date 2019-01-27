@@ -5,6 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class InitManager : MonoBehaviour
 {
+    private void Awake()
+    {
+        Cursor.visible = false;
+    }
+    
     private void Start()
     {
         StartCoroutine(LoadScene());

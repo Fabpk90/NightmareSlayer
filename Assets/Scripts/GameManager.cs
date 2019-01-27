@@ -163,6 +163,7 @@ public class GameManager : MonoBehaviour
     {
         Destroy(boss.gameObject);
         bossUI.SetActive(false);
+        healthSlider.value = 1;
         player.lifeImage.gameObject.SetActive(false);
         Destroy(player.gameObject);
         Door.SetActive(false);
