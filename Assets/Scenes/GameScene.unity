@@ -2615,11 +2615,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 1586957282272152479, guid: 6c5c3d7f1d2a051408275ee0540bf2e1,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1586957282272152450, guid: 6c5c3d7f1d2a051408275ee0540bf2e1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2680,17 +2675,5 @@ PrefabInstance:
       propertyPath: lifeImage
       value: 
       objectReference: {fileID: 1083788327}
-    - target: {fileID: 1586957282272152452, guid: 6c5c3d7f1d2a051408275ee0540bf2e1,
-        type: 3}
-      propertyPath: particleHitSwordRight
-      value: 
-      objectReference: {fileID: 2676382518132821685, guid: b0f7d03cb2280e14bb67542e84316a01,
-        type: 3}
-    - target: {fileID: 1586957282272152452, guid: 6c5c3d7f1d2a051408275ee0540bf2e1,
-        type: 3}
-      propertyPath: particleHitSwordLeft
-      value: 
-      objectReference: {fileID: 5568098376092325112, guid: 2a8f841be9cf5f74eb6388ba57aa261a,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c5c3d7f1d2a051408275ee0540bf2e1, type: 3}

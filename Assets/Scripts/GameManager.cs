@@ -198,6 +198,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator WinAnimation()
     {
+        player.hasControl = false;
         bossUI.SetActive(false);
         player.lifeImage.gameObject.SetActive(false);
         winParticles.SetActive(true);
@@ -223,6 +224,7 @@ public class GameManager : MonoBehaviour
 
             yield return null;
         }
+        image.color = new Color(image.color.r, image.color.g, image.color.b, 1);
     }
 
     private IEnumerator FadeOut(float fadeDuration, Image image)
@@ -236,5 +238,6 @@ public class GameManager : MonoBehaviour
 
             yield return null;
         }
+        image.color = new Color(image.color.r, image.color.g, image.color.b, 0);
     }
 }

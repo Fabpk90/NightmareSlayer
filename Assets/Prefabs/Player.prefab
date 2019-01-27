@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 064a7cbdf34fb6c49bce46ae13de373c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
+  maxHealth: 14
   health: 0
   groundCheck: {fileID: 1586957280559840732}
   animator: {fileID: 1586957282272152453}
@@ -200,6 +200,7 @@ MonoBehaviour:
     type: 3}
   particleHitSwordLeft: {fileID: 5568098376092325112, guid: 2a8f841be9cf5f74eb6388ba57aa261a,
     type: 3}
+  blinkingTime: 1
   hasControl: 0
   isFacingRight: 1
   willJumpNextFixedFrame: 0
@@ -212,6 +213,7 @@ MonoBehaviour:
   lifeImage: {fileID: 0}
   lifeSpriteList: []
   rigidBody: {fileID: 0}
+  isInivicble: 0
 --- !u!95 &1586957282272152453
 Animator:
   serializedVersion: 3
