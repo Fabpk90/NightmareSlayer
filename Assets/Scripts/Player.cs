@@ -163,7 +163,6 @@ public class Player : Deathable
         canDash = false;
         canAttack = false;
         animator.SetBool("isDashing", true);
-        Debug.Log(animator.GetBool("isDashing"));
         float startX = transform.localPosition.x;
         float endX;
         if (isFacingRight)
@@ -186,9 +185,7 @@ public class Player : Deathable
             yield return null;
         }
         isDashing = false;
-        Debug.Log(animator.GetBool("isDashing"));
         animator.SetBool("isDashing", false);
-        Debug.Log(animator.GetBool("isDashing"));
         rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
         
         yield return new WaitForSeconds(dashCooldown);
@@ -238,6 +235,7 @@ public class Player : Deathable
     protected override void OnDie()
     {
         gameObject.SetActive(false);
+        GameManager.instance.RetryBoss();
     }
 
     public void MakeStepSound()

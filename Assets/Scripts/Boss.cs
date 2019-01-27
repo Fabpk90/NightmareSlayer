@@ -52,7 +52,6 @@ public class Boss : Actor
 
     private int waveIndex;
     private Animator _animator;
-
     protected override void OnStart()
     {
         base.OnStart();
@@ -74,7 +73,9 @@ public class Boss : Actor
     protected override void OnDie()
     {
         enabled = false;
-        _animator.SetBool("Dead", true);
+        GetComponent<Animator>().SetBool("Dead", true);
+        gameObject.SetActive(false);
+        GameManager.instance.OnWin();
     }
 
     public void Destroy()
