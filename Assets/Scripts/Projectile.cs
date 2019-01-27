@@ -9,6 +9,13 @@ public class Projectile : MonoBehaviour
     
     private Deathable owner;
 
+    public float rotationRate;
+
+    private void FixedUpdate()
+    {
+        transform.Rotate(0, 0, rotationRate);
+    }
+
     public void Shoot(Vector3 destination, Deathable owner)
     {
         this.owner = owner;
