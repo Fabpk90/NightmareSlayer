@@ -6,9 +6,22 @@ public class Platform : Deathable
 {
     public float cooldownRespawn;
 
+    private BoxCollider2D collider;
+    private SpriteRenderer render;
+
+    protected override void OnStart()
+    {
+        base.OnStart();
+
+        collider = GetComponent<BoxCollider2D>();
+        render = GetComponent<SpriteRenderer>();
+    }
+
     protected override void OnDie()
     {
-        gameObject.SetActive(false);
+        collider.enabled = false;
+        render.enabled = false;
+        
         StartCoroutine(EnableAfterSeconds());
     }
 
@@ -16,6 +29,8 @@ public class Platform : Deathable
     {
         yield return new WaitForSeconds(cooldownRespawn);
         health = maxHealth;
-        gameObject.SetActive(true);
+        
+        collider.enabled = true;
+        render.enabled = true;
     }
 }
