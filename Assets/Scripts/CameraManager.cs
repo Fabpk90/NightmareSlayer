@@ -53,6 +53,5 @@ public class CameraManager : MonoBehaviour
             time = (Time.time - startTime) / cameraMovementDuration;
             yield return null;
         }
-        GameManager.instance.GiveControls(true);
     }
 }

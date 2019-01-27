@@ -79,6 +79,7 @@ public class Boss : Actor
     public void ActivateBoss()
     {
         enabled = true;
+        GameManager.instance.GiveControls(true);
     }
 
     protected override void Shoot()
@@ -155,9 +156,20 @@ public class Boss : Actor
     IEnumerator MovingBoss()
     {
         float startX = transform.position.x;
-        float endX = isOnTheLeft ? right.transform.position.x : left.transform.position.x;
-            
-            
+        float endX = 0;
+        if (isOnTheLeft)
+        {
+            endX = left.transform.position.x;
+            transform.localScale = new Vector3(
+                Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
+        else
+        {
+            endX = right.transform.position.x;
+            transform.localScale = new Vector3(
+                -Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
+       
         while (lerpIncrement < 1)
         {
             transform.position = 
