@@ -16,7 +16,12 @@ public class Boss : Actor
     }
 
     public List<EWaveType> listWave;
-    
+
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+    }
+
     public Player player;
     private Vector3 playerPosition;
 
@@ -46,7 +51,8 @@ public class Boss : Actor
     private bool nextWaveIsToBeActivated;
 
     private int waveIndex;
-    
+    private Animator _animator;
+
     protected override void OnStart()
     {
         base.OnStart();
@@ -68,7 +74,7 @@ public class Boss : Actor
     protected override void OnDie()
     {
         enabled = false;
-        GetComponent<Animator>().SetBool("Dead", true);
+        _animator.SetBool("Dead", true);
     }
 
     public void Destroy()
@@ -108,7 +114,7 @@ public class Boss : Actor
         if (player)
         {
             player.TakeDamage(damageWhenCollide);
-            print("Player hit boss -2 hp");
+            print("Player hit boss "+damageWhenCollide+" hp");
         }
     }
 
@@ -159,16 +165,14 @@ public class Boss : Actor
         float endX = 0;
         if (isOnTheLeft)
         {
-            endX = left.transform.position.x;
-            transform.localScale = new Vector3(
-                Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            endX = right.transform.position.x;
         }
         else
         {
-            endX = right.transform.position.x;
-            transform.localScale = new Vector3(
-                -Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            endX = left.transform.position.x;
         }
+        
+        _animator.SetBool("Dash", true);
        
         while (lerpIncrement < 1)
         {
@@ -181,7 +185,14 @@ public class Boss : Actor
         isOnTheLeft = !isOnTheLeft;
         lerpIncrement = 0;
         
+        _animator.SetBool("Dash", false);
+        transform.localScale = new Vector3(
+            Mathf.Abs(transform.localScale.x) * (isOnTheLeft ? -1 : 1), transform.localScale.y, transform.localScale.z);
+        
         yield return  new WaitForSeconds(cooldownBetweenPhase);
         nextWaveIsToBeActivated = true;
+        
+        
+        
     }
 }
