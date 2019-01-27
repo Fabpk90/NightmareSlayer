@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public GameObject bossLeftSide;    
     public Image lifeImage;
     public List<Sprite> lifeSpriteList;
+    public GameObject earlyAnimation;
 
 
     
@@ -73,24 +74,29 @@ public class GameManager : MonoBehaviour
         {
             if (Input.anyKey)
             {
-                StartCoroutine(StartGameAnimation());
+                StartGameAnimation();
             }
         }
     }
 
-    private IEnumerator StartGameAnimation()
+    private void StartGameAnimation()
+    {
+        earlyAnimation.SetActive(true);
+        titleScreenUi.SetActive(false);
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UI/Menu_Validation", transform.position);
+    }
+
+    public void SpawnPlayer()
     {
         musicManager.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        player.gameObject.SetActive(true);
-        gameHasStarted = true;
-        titleScreenUi.SetActive(false);
         player.hasControl = true;
         player.lifeImage.gameObject.SetActive(true);
         FMODUnity.RuntimeManager.SetListenerLocation(player.gameObject);
-        FMODUnity.RuntimeManager.PlayOneShot("event:/UI/Menu_Validation", transform.position);
-        yield return new WaitForSeconds(2f);
         ambianceManager = FMODUnity.RuntimeManager.CreateInstance("event:/Amb/Ambiant_Nightmare");
         ambianceManager.start();
+        player.gameObject.SetActive(true);
+        gameHasStarted = true;
+        earlyAnimation.SetActive(false);
     }
 
     public void GiveControls(bool hasControl)
@@ -177,6 +183,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(4);
         StartCoroutine(FadeIn(2, background));
         yield return new WaitForSeconds(2.5f);
+        musicManager.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         SceneManager.LoadScene(1);
     }
     
