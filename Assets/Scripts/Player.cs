@@ -278,7 +278,7 @@ public class Player : Deathable
                 var leftrightParticle = isFacingRight ? particleHitSwordRight : particleHitSwordLeft;
                 var particle = Instantiate(leftrightParticle, new Vector3(hit.point.x, hit.point.y, 0),
                     Quaternion.identity);
-                particle.transform.localScale = new Vector3(particle.transform.localScale.x * (isFacingRight ? 1 : -1),
+                particle.transform.localScale = new Vector3(particle.transform.localScale.x,
                     particle.transform.localScale.y, particle.transform.localScale.z);
                 Destroy(particle,1f);
                 Boss.TakeDamage(attackDamage);
