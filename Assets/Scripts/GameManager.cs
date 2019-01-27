@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     [Header("Title and win screen")]
     public bool hasTitleScreenLoaded = false;
     public EventInstance musicManager;
+    public EventInstance ambianceManager;
     public Image title;
     public Image pressStart;
     public Image background;
@@ -53,9 +54,7 @@ public class GameManager : MonoBehaviour
         
         FMODUnity.RuntimeManager.SetListenerLocation(camera.gameObject);
 
-        //TODO : Mettre la musique
-        musicManager = FMODUnity.RuntimeManager.CreateInstance("event:/Amb/Ambiant_Nightmare");
-        musicManager.start();
+        musicManager = FMODUnity.RuntimeManager.CreateInstance("event:/Music/Menu_Music");
 
         Cursor.visible = false;
         
@@ -74,15 +73,24 @@ public class GameManager : MonoBehaviour
         {
             if (Input.anyKey)
             {
-                player.gameObject.SetActive(true);
-                gameHasStarted = true;
-                titleScreenUi.SetActive(false);
-                player.hasControl = true;
-                player.lifeImage.gameObject.SetActive(true);
-                FMODUnity.RuntimeManager.SetListenerLocation(player.gameObject);
-                FMODUnity.RuntimeManager.PlayOneShot("event:/UI/Menu_Validation", transform.position);
+                StartCoroutine(StartGameAnimation());
             }
         }
+    }
+
+    private IEnumerator StartGameAnimation()
+    {
+        musicManager.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        player.gameObject.SetActive(true);
+        gameHasStarted = true;
+        titleScreenUi.SetActive(false);
+        player.hasControl = true;
+        player.lifeImage.gameObject.SetActive(true);
+        FMODUnity.RuntimeManager.SetListenerLocation(player.gameObject);
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UI/Menu_Validation", transform.position);
+        yield return new WaitForSeconds(2f);
+        ambianceManager = FMODUnity.RuntimeManager.CreateInstance("event:/Amb/Ambiant_Nightmare");
+        ambianceManager.start();
     }
 
     public void GiveControls(bool hasControl)
@@ -93,10 +101,12 @@ public class GameManager : MonoBehaviour
 
     public void LockBossRoom()
     {
+        ambianceManager.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        musicManager = FMODUnity.RuntimeManager.CreateInstance("event:/Music/InGame_Music");
+        musicManager.start();
         boss.gameObject.SetActive(true);
         Door.SetActive(true);
         camera.FixPositionForBossFight();
-
     }
 
     public void SetNightmareAmount(float ratio)
@@ -110,6 +120,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator TitleScreenAnimation()
     {
+        musicManager.start();
         StartCoroutine(FadeOut(1, background));
         yield return new WaitForSeconds(2);
         StartCoroutine(FadeIn(2, title));
@@ -130,6 +141,7 @@ public class GameManager : MonoBehaviour
         Destroy(player.gameObject);
         Door.SetActive(false);
         musicManager.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        ambianceManager.start();
         StartCoroutine(FadeIn(2, background));
         yield return new WaitForSeconds(2);
         Instantiate(bossRoomTriggerPrefab);
