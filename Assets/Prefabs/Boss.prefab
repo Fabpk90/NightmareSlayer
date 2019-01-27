@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e5e1c16edc341a3a0ac6a43fd2e1dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 40
+  maxHealth: 10
   health: 0
   projectile: {fileID: 6256528003461490844, guid: 8d6ce271b1aecdb4cae0a66d6f61033e,
     type: 3}
@@ -111,7 +111,6 @@ MonoBehaviour:
   cooldownBetweenPhase: 0.5
   damageWhenCollide: 1
   probabilityMovementPhase: 0.33
-  winParticles: {fileID: 0}
 --- !u!50 &1180604654
 Rigidbody2D:
   serializedVersion: 4

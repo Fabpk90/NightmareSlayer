@@ -74,6 +74,7 @@ public class GameManager : MonoBehaviour
                 titleScreenUi.SetActive(false);
                 player.hasControl = true;
                 FMODUnity.RuntimeManager.SetListenerLocation(player.gameObject);
+                FMODUnity.RuntimeManager.PlayOneShot("event:/UI/Menu_Validation", transform.position);
             }
         }
     }
@@ -156,7 +157,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(4);
         StartCoroutine(FadeIn(2, background));
         yield return new WaitForSeconds(2.5f);
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
     
     
