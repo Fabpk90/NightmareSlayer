@@ -127,6 +127,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2);
         Instantiate(bossRoomTriggerPrefab);
         player = Instantiate(playerPrefab).GetComponent<Player>();
+        player.gameObject.SetActive(true);
         player.hasControl = true;
         boss = Instantiate(bossPrefab).GetComponent<Boss>();
         boss.gameObject.SetActive(false);
