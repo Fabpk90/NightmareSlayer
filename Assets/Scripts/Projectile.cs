@@ -33,8 +33,24 @@ public class Projectile : MonoBehaviour
         {
             if (actor != owner)
             {
-                actor.TakeDamage(damage);
-                Destroy(gameObject);
+                var Player = go.GetComponent<Player>();
+
+                if (Player)
+                {
+                    if (!Player.isInivicble)
+                    {
+                        Player.TakeDamage(damage);
+                        Destroy(gameObject);
+                    }
+                        
+                }
+                else
+                {
+                    actor.TakeDamage(damage);
+                    Destroy(gameObject);
+                }
+                    
+                
             }
             
         }

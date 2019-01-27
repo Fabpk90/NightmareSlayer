@@ -32,6 +32,7 @@ public class Player : Deathable
     public GameObject raycastPosition;
     public GameObject particleHitSwordRight;
     public GameObject particleHitSwordLeft;
+    public float blinkingTime;
     
     [Header("Player movement status")]
     public bool hasControl = false;
@@ -50,6 +51,11 @@ public class Player : Deathable
 
     public Rigidbody2D rigidBody;
     private Vector2 movement;
+
+
+    public bool isInivicble;
+    
+    private float startTimeBlinking;
 
     protected override void OnStart()
     {
@@ -226,20 +232,42 @@ public class Player : Deathable
 
     public override void TakeDamage(int amount)
     {
-        FMODUnity.RuntimeManager.PlayOneShot("event:/Char/Char_Hit", transform.position);
-        if (health - amount <= 0)
+        if (!isInivicble)
         {
-            lifeImage.sprite = lifeSpriteList[14];
-            health = 0;
-            OnDie();
+            StartCoroutine(blinkingDamage());
+            FMODUnity.RuntimeManager.PlayOneShot("event:/Char/Char_Hit", transform.position);
+            if (health - amount <= 0)
+            {
+                lifeImage.sprite = lifeSpriteList[14];
+                health = 0;
+                OnDie();
+            }
+            else
+            {
+                health -= amount;
+                var ratio = Mathf.FloorToInt(14 - 14 * health / maxHealth);
+                print(ratio);
+                lifeImage.sprite = lifeSpriteList[ratio];
+            }
         }
-        else
+        
+    }
+
+    IEnumerator blinkingDamage()
+    {
+        startTimeBlinking = Time.time;
+        isInivicble = true;
+
+        while (Time.time - startTimeBlinking < blinkingTime)
         {
-            health -= amount;
-            var ratio = Mathf.FloorToInt(14 - 14 * health / maxHealth);
-            print(ratio);
-            lifeImage.sprite = lifeSpriteList[ratio];
+            GetComponent<SpriteRenderer>().enabled = false;
+            yield return new WaitForSeconds(0.1f);
+            GetComponent<SpriteRenderer>().enabled = true;
+            yield return new WaitForSeconds(0.1f);
         }
+
+        isInivicble = false;
+
     }
 
     protected override void OnDie()
