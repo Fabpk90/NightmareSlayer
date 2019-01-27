@@ -65,6 +65,7 @@ public class Boss : Actor
     
     public override void TakeDamage(int amount) 
     {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Boss/Boss_Hit/Boss_hit");
         base.TakeDamage(amount);
         float nightmareRatio = (float)health / maxHealth;
         GameManager.instance.SetNightmareAmount(nightmareRatio);
