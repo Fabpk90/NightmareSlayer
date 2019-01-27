@@ -150,6 +150,8 @@ public class Boss : Actor
 
     IEnumerator ProjectileWave()
     {
+        _animator.SetBool("Attack", true);
+        yield return new WaitForSeconds(0.2f);
         for (int i = 0; i < nbProjectile; i++)
         {
             Shoot();
@@ -157,6 +159,7 @@ public class Boss : Actor
         }
         
         yield return  new WaitForSeconds(cooldownBetweenPhase);
+        _animator.SetBool("Attack", false);
         nextWaveIsToBeActivated = true;
     }
 
