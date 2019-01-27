@@ -1,28 +1,21 @@
 
+using System.Collections;
 using UnityEngine;
 
 public class Platform : Deathable
 {
-    public bool hasToMove;
-    
-    public GameObject pointA;
-    public GameObject pointB;
+    public float cooldownRespawn;
 
-    private bool goingToA;
-    
-    private void FixedUpdate()
+    protected override void OnDie()
     {
-        if (hasToMove)
-        {
-            var moving = Vector3.MoveTowards(transform.position
-                             , goingToA
-                                 ? pointA.transform.position
-                                 : pointB.transform.position, 0f) * Time.deltaTime;
+        gameObject.SetActive(false);
+        StartCoroutine(EnableAfterSeconds());
+    }
 
-            if (moving == transform.position)
-                goingToA = !goingToA;
-            else
-                transform.position = moving;
-        }
+    IEnumerator EnableAfterSeconds()
+    {
+        yield return new WaitForSeconds(cooldownRespawn);
+        health = maxHealth;
+        gameObject.SetActive(true);
     }
 }
