@@ -87,15 +87,10 @@ public class GameManager : MonoBehaviour
 
     public void LockBossRoom()
     {
-        StartCoroutine(BossRoomAnimation());
-    }
-
-    private IEnumerator BossRoomAnimation()
-    {
+        boss.gameObject.SetActive(true);
         Door.SetActive(true);
         camera.FixPositionForBossFight();
-        yield return new WaitForSeconds(3);
-        boss.gameObject.SetActive(true);
+
     }
 
     public void SetNightmareAmount(float ratio)

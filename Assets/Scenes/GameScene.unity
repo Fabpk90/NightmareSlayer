@@ -1944,11 +1944,6 @@ PrefabInstance:
       propertyPath: right
       value: 
       objectReference: {fileID: 1750938014}
-    - target: {fileID: 7308326249813496132, guid: 9f6ea269c3357314b8bdd853df409d9a,
-        type: 3}
-      propertyPath: maxHealth
-      value: 40
-      objectReference: {fileID: 0}
     - target: {fileID: 7308326249813496130, guid: 9f6ea269c3357314b8bdd853df409d9a,
         type: 3}
       propertyPath: m_LocalPosition.x
