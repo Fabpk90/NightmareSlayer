@@ -87,15 +87,10 @@ public class GameManager : MonoBehaviour
 
     public void LockBossRoom()
     {
-        StartCoroutine(BossRoomAnimation());
-    }
-
-    private IEnumerator BossRoomAnimation()
-    {
+        boss.gameObject.SetActive(true);
         Door.SetActive(true);
         camera.FixPositionForBossFight();
-        yield return new WaitForSeconds(3);
-        boss.gameObject.SetActive(true);
+
     }
 
     public void SetNightmareAmount(float ratio)
@@ -132,6 +127,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2);
         Instantiate(bossRoomTriggerPrefab);
         player = Instantiate(playerPrefab).GetComponent<Player>();
+        player.gameObject.SetActive(true);
         player.hasControl = true;
         boss = Instantiate(bossPrefab).GetComponent<Boss>();
         boss.gameObject.SetActive(false);
