@@ -30,7 +30,7 @@ public class Player : Deathable
     public GameObject attackHitboxPrefab;
     public float attackDashCancel;
     public GameObject raycastPosition;
-    
+    public GameObject particleHitSword;
     
     [Header("Player movement status")]
     public bool hasControl = false;
@@ -274,6 +274,11 @@ public class Player : Deathable
             var Boss = hit.transform.GetComponent<Boss>();
             if (Boss)
             {
+                var particle = Instantiate(particleHitSword, new Vector3(hit.point.x, hit.point.y, 0),
+                    Quaternion.identity);
+                particle.transform.localScale = new Vector3(particle.transform.localScale.x * (isFacingRight ? 1 : -1),
+                    particle.transform.localScale.y, particle.transform.localScale.z);
+                Destroy(particle,1f);
                 Boss.TakeDamage(attackDamage);
             }
         }

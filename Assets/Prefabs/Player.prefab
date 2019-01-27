@@ -175,19 +175,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 064a7cbdf34fb6c49bce46ae13de373c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 30
+  maxHealth: 20
   health: 0
   groundCheck: {fileID: 1586957280559840732}
   animator: {fileID: 1586957282272152453}
-  groundedMovementAcceleration: 60
-  airMovementAcceleration: 50
-  maxVelocityX: 10
-  jumpForce: 1400
-  dashCooldown: 0.25
-  dashDistance: 4
+  groundedMovementAcceleration: 70
+  airMovementAcceleration: 55
+  maxVelocityX: 12
+  jumpForce: 1450
+  dashCooldown: 0.2
+  dashDistance: 5
   dashDuration: 0.12
-  attackDistance: 0
-  attackDamage: 3
+  attackDistance: 2.2
+  attackDamage: 1
   attackDelay: 0
   attackRecovery: 0
   attackHitboxDuration: 0.2
@@ -196,6 +196,8 @@ MonoBehaviour:
     type: 3}
   attackDashCancel: 1
   raycastPosition: {fileID: 7386267630999034693}
+  particleHitSword: {fileID: 2676382518132821685, guid: b0f7d03cb2280e14bb67542e84316a01,
+    type: 3}
   hasControl: 0
   isFacingRight: 1
   willJumpNextFixedFrame: 0
@@ -205,6 +207,8 @@ MonoBehaviour:
   isAttacking: 0
   isOnGround: 0
   dashGroundReset: 1
+  lifeImage: {fileID: 0}
+  lifeSpriteList: []
   rigidBody: {fileID: 0}
 --- !u!95 &1586957282272152453
 Animator:
