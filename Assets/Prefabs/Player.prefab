@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 064a7cbdf34fb6c49bce46ae13de373c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 14
+  maxHealth: 10
   health: 0
   canTakeDamage: 1
   groundCheck: {fileID: 355}
