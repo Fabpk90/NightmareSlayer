@@ -41,6 +41,7 @@ public class Player : Deathable
     public bool isAttacking = false;
     public bool isOnGround;
     public bool dashGroundReset = true;
+    public bool hasJustTouchedGround = false;
 
     [Header("Life")] 
     public Image lifeImage;    
@@ -69,6 +70,7 @@ public class Player : Deathable
         if (!oldIsOnGround && isOnGround)
         {
             FMODUnity.RuntimeManager.PlayOneShot("event:/Char/Char_Fall", transform.position);
+            hasJustTouchedGround = true;
         }
         
         // Allow to dash if player didn't hit the ground yet after a dash
@@ -84,8 +86,15 @@ public class Player : Deathable
             willJumpNextFixedFrame = true;
         }
 
-        if (hasControl && isDashInputed() && canDash && !isDashing && dashGroundReset)
+        if (hasControl && isDashInputed() && canDash && !isDashing && dashGroundReset && !isAttacking)
         {
+            dashGroundReset = false;
+            rigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+            rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0);
+            isDashing = true;
+            canDash = false;
+            animator.SetBool("isDashing", true);
+            canTakeDamage = false;
             StartCoroutine(Dash());
         } else if (hasControl && Input.GetKeyDown(KeyCode.Joystick1Button2) && canAttack && !isAttacking && !isDashing)
         {
@@ -97,6 +106,11 @@ public class Player : Deathable
 
     private void FixedUpdate()
     {
+        if (hasJustTouchedGround)
+        {
+            rigidBody.velocity = Vector2.zero;
+            hasJustTouchedGround = false;
+        }
         if (willJumpNextFixedFrame)
         {
             rigidBody.AddForce(new Vector2(0, jumpForce));
@@ -108,7 +122,8 @@ public class Player : Deathable
         
         if (hasControl && !isDashing)
         {
-            if (Input.GetAxis("Horizontal") > .15f)
+            var horizontalAxisInput = Input.GetAxis("Horizontal");
+            if (horizontalAxisInput > .1f)
             {
                 if (!isFacingRight)
                 {
@@ -119,17 +134,16 @@ public class Player : Deathable
                 {
                     if (isOnGround)
                     {
-                        rigidBody.AddForce(new Vector2(groundedMovementAcceleration, 0));
+                        rigidBody.AddForce(new Vector2(groundedMovementAcceleration * Mathf.Abs(horizontalAxisInput), 0));
                     }
                     else
                     {
-                        rigidBody.AddForce(new Vector2(airMovementAcceleration, 0));
-
+                        rigidBody.AddForce(new Vector2(airMovementAcceleration * Mathf.Abs(horizontalAxisInput), 0));
                     }
                 }
                 
             }
-            else if (Input.GetAxis("Horizontal") < -.15f)
+            else if (horizontalAxisInput < -.1f)
             {
                 if (isFacingRight)
                 {
@@ -139,11 +153,11 @@ public class Player : Deathable
                 {
                     if (isOnGround)
                     {
-                        rigidBody.AddForce(new Vector2(-1 * groundedMovementAcceleration, 0));
+                        rigidBody.AddForce(new Vector2(-1 * groundedMovementAcceleration * Mathf.Abs(horizontalAxisInput), 0));
                     }
                     else
                     {
-                        rigidBody.AddForce(new Vector2(-1 * airMovementAcceleration, 0));
+                        rigidBody.AddForce(new Vector2(-1 * airMovementAcceleration * Mathf.Abs(horizontalAxisInput), 0));
                     }
                 }
             }
@@ -163,13 +177,6 @@ public class Player : Deathable
 
     private IEnumerator Dash()
     {
-        dashGroundReset = false;
-        rigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
-        rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0);
-        isDashing = true;
-        canDash = false;
-        animator.SetBool("isDashing", true);
-        canTakeDamage = false;
         float startX = transform.localPosition.x;
         float endX;
         if (isFacingRight)
@@ -208,7 +215,6 @@ public class Player : Deathable
     private void Attack()
     {
         isAttacking = true;
-        canDash = false;
         canAttack = false;
 
         
@@ -316,7 +322,6 @@ public class Player : Deathable
         {
             Destroy(go);
         }
-        canDash = true;
         isAttacking = false;
         Invoke(nameof(AttackCooldown), attackCooldown);
     }
