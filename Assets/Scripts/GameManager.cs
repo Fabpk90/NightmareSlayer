@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     public GameObject earlyAnimation;
     public GameObject bossUI;
     public Slider healthSlider;
+    public Transform playerInitialPosition;
+    public Transform playerRetryPosition;
 
 
 
@@ -68,12 +70,12 @@ public class GameManager : MonoBehaviour
 
     }
 
-    void Start()
+    private void Start()
     {
         StartCoroutine(TitleScreenAnimation());
     }
 
-    void Update()
+    private void Update()
     {
         if (!gameHasStarted && hasTitleScreenLoaded)
         {
@@ -81,7 +83,12 @@ public class GameManager : MonoBehaviour
             {
                 gameHasStarted = true;
                 titleScreenUi.SetActive(false);
-                SpawnPlayer();
+                musicManager.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                ambianceManager = FMODUnity.RuntimeManager.CreateInstance("event:/Amb/Ambiant_Nightmare");
+                ambianceManager.start();
+                FMODUnity.RuntimeManager.PlayOneShot("event:/UI/Menu_Validation", transform.position);
+                SpawnPlayer(playerInitialPosition);
+                SpawnBoss();
             }
             else if (Input.anyKey)
             {
@@ -107,17 +114,26 @@ public class GameManager : MonoBehaviour
         FMODUnity.RuntimeManager.PlayOneShot("event:/Char/Char_Spawn_Early", transform.position);
     }
 
-    public void SpawnPlayer()
+    public void SpawnPlayer(Transform spawnPosition)
     {
-        musicManager.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        player.hasControl = true;
-        player.lifeImage.gameObject.SetActive(true);
-        FMODUnity.RuntimeManager.SetListenerLocation(player.gameObject);
-        ambianceManager = FMODUnity.RuntimeManager.CreateInstance("event:/Amb/Ambiant_Nightmare");
-        ambianceManager.start();
+        player = Instantiate(playerPrefab, spawnPosition.position, spawnPosition.rotation).GetComponent<Player>();
         player.gameObject.SetActive(true);
-        FMODUnity.RuntimeManager.PlayOneShot("event:/UI/Menu_Validation", transform.position);
-        earlyAnimation.SetActive(false);
+        player.hasControl = true;
+        player.lifeImage = lifeImage;
+        player.lifeSpriteList = lifeSpriteList;
+        player.lifeImage.sprite = lifeSpriteList[0];
+        player.lifeImage.gameObject.SetActive(true);
+        camera.playerPosition = player.transform;
+    }
+
+    public void SpawnBoss()
+    {
+        boss = Instantiate(bossPrefab).GetComponent<Boss>();
+        boss.gameObject.SetActive(false);
+        boss.player = player;
+        boss.left = bossLeftSide;
+        boss.right = bossRightSide;
+        boss.player = player;
     }
 
     public void GiveControls(bool hasControl)
@@ -177,18 +193,8 @@ public class GameManager : MonoBehaviour
         StartCoroutine(FadeIn(2, background));
         yield return new WaitForSeconds(2);
         Instantiate(bossRoomTriggerPrefab);
-        player = Instantiate(playerPrefab).GetComponent<Player>();
-        player.gameObject.SetActive(true);
-        player.hasControl = true;
-        player.lifeImage = lifeImage;
-        player.lifeSpriteList = lifeSpriteList;
-        player.lifeImage.sprite = lifeSpriteList[0];
-        player.lifeImage.gameObject.SetActive(true);
-        boss = Instantiate(bossPrefab).GetComponent<Boss>();
-        boss.gameObject.SetActive(false);
-        boss.player = player;
-        boss.left = bossLeftSide;
-        boss.right = bossRightSide;
+        SpawnPlayer(playerRetryPosition);
+        SpawnBoss();
         SetNightmareAmount(1);
         StartCoroutine(FadeOut(2, background));
         camera.playerPosition = player.transform;

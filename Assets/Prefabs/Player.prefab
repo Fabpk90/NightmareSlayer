@@ -197,7 +197,7 @@ MonoBehaviour:
     type: 3}
   particleHitSwordLeft: {fileID: 5568098376092325112, guid: 2a8f841be9cf5f74eb6388ba57aa261a,
     type: 3}
-  invincibilityTimeAfterDamage: 1.5
+  invincibilityTimeAfterDamage: 0.3
   hasControl: 0
   isFacingRight: 1
   willJumpNextFixedFrame: 0
