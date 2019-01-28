@@ -2652,9 +2652,5 @@ PrefabInstance:
       propertyPath: lifeImage
       value: 
       objectReference: {fileID: 1083788327}
-    - target: {fileID: 388, guid: 6c5c3d7f1d2a051408275ee0540bf2e1, type: 3}
-      propertyPath: maxHealth
-      value: 10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c5c3d7f1d2a051408275ee0540bf2e1, type: 3}
