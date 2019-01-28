@@ -1237,6 +1237,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 4867018189121432480, guid: 0515603cddc43ac4092eb38c84c16449,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4867018189121432484, guid: 0515603cddc43ac4092eb38c84c16449,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2327,12 +2332,12 @@ PrefabInstance:
     - target: {fileID: 7026111747850404574, guid: 48f5c7d328ff54e46b5790fe8b87ae81,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.266096
+      value: 13.06
       objectReference: {fileID: 0}
     - target: {fileID: 7026111747850404574, guid: 48f5c7d328ff54e46b5790fe8b87ae81,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.0151627
+      value: -2.2
       objectReference: {fileID: 0}
     - target: {fileID: 7026111747850404574, guid: 48f5c7d328ff54e46b5790fe8b87ae81,
         type: 3}
@@ -2378,6 +2383,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6485255984605830431, guid: 48f5c7d328ff54e46b5790fe8b87ae81,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.84
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48f5c7d328ff54e46b5790fe8b87ae81, type: 3}
@@ -2614,6 +2624,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1586957282272152479, guid: 6c5c3d7f1d2a051408275ee0540bf2e1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1586957282272152450, guid: 6c5c3d7f1d2a051408275ee0540bf2e1,
         type: 3}

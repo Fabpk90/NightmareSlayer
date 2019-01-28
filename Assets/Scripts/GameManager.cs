@@ -73,12 +73,17 @@ public class GameManager : MonoBehaviour
         StartCoroutine(TitleScreenAnimation());
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!gameHasStarted && hasTitleScreenLoaded)
         {
-            if (Input.anyKey)
+            if (Input.GetKeyDown(KeyCode.Joystick1Button6))
+            {
+                gameHasStarted = true;
+                titleScreenUi.SetActive(false);
+                SpawnPlayer();
+            }
+            else if (Input.anyKey)
             {
                 FMODUnity.RuntimeManager.PlayOneShot("event:/UI/Menu_Validation", transform.position);
                 StartCoroutine(StartGameAnimation());
@@ -198,6 +203,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator WinAnimation()
     {
+        player.rigidBody.velocity = Vector2.zero;
         player.hasControl = false;
         bossUI.SetActive(false);
         player.lifeImage.gameObject.SetActive(false);

@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1586957280559840731}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.09, z: 0}
+  m_LocalPosition: {x: 0, y: -1.215, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1586957282272152450}
@@ -50,7 +50,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1586957282272152450
 Transform:
   m_ObjectHideFlags: 0
@@ -177,30 +177,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 14
   health: 0
+  canTakeDamage: 1
   groundCheck: {fileID: 1586957280559840732}
   animator: {fileID: 1586957282272152453}
   groundedMovementAcceleration: 70
   airMovementAcceleration: 55
   maxVelocityX: 12
   jumpForce: 1450
-  dashCooldown: 0.2
+  dashCooldown: 0.35
   dashDistance: 5
   dashDuration: 0.12
   attackDistance: 2.2
   attackDamage: 1
-  attackDelay: 0
-  attackRecovery: 0
-  attackHitboxDuration: 0.2
-  attackHitbox: {fileID: 5503449311194489424}
-  attackHitboxPrefab: {fileID: 6513943115297098212, guid: e32fb810f093bb14a86f9cd05c700791,
-    type: 3}
+  attackCooldown: 0.25
   attackDashCancel: 1
+  dashInvulnerabilityPercentage: 1
   raycastPosition: {fileID: 7386267630999034693}
   particleHitSwordRight: {fileID: 2676382518132821685, guid: b0f7d03cb2280e14bb67542e84316a01,
     type: 3}
   particleHitSwordLeft: {fileID: 5568098376092325112, guid: 2a8f841be9cf5f74eb6388ba57aa261a,
     type: 3}
-  blinkingTime: 1
+  invincibilityTimeAfterDamage: 1.5
   hasControl: 0
   isFacingRight: 1
   willJumpNextFixedFrame: 0
@@ -213,7 +210,6 @@ MonoBehaviour:
   lifeImage: {fileID: 0}
   lifeSpriteList: []
   rigidBody: {fileID: 0}
-  isInivicble: 0
 --- !u!95 &1586957282272152453
 Animator:
   serializedVersion: 3
@@ -342,12 +338,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e32fb810f093bb14a86f9cd05c700791, type: 3}
---- !u!1 &5503449311194489424 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6513943115297098212, guid: e32fb810f093bb14a86f9cd05c700791,
-    type: 3}
-  m_PrefabInstance: {fileID: 1586957281063283636}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5503449311194489427 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6513943115297098215, guid: e32fb810f093bb14a86f9cd05c700791,

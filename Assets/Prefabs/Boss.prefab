@@ -97,6 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 50
   health: 0
+  canTakeDamage: 1
   projectile: {fileID: 6256528003461490844, guid: 8d6ce271b1aecdb4cae0a66d6f61033e,
     type: 3}
   listWave: 0000000000000000000000000000000001000000
@@ -104,12 +105,13 @@ MonoBehaviour:
   left: {fileID: 0}
   right: {fileID: 0}
   isOnTheLeft: 0
-  nbProjectile: 3
-  cooldownBetween: 0.2
+  nbProjectile: 4
+  cooldownBetweenTwoProjectiles: 0.2
   movementDuration: 1.2
-  cooldownBetweenPhase: 0.5
+  cooldownBetweenPhase: 0.8
   damageWhenCollide: 1
   probabilityMovementPhase: 0.33
+  healthSlider: {fileID: 0}
 --- !u!50 &1180604654
 Rigidbody2D:
   serializedVersion: 4

@@ -23,16 +23,13 @@ public class Player : Deathable
     public float dashDuration;
     public float attackDistance;
     public int attackDamage;
-    public float attackDelay;
-    public float attackRecovery;
-    public float attackHitboxDuration;
-    public GameObject attackHitbox;
-    public GameObject attackHitboxPrefab;
+    public float attackCooldown;
     public float attackDashCancel;
+    public float dashInvulnerabilityPercentage;
     public GameObject raycastPosition;
     public GameObject particleHitSwordRight;
     public GameObject particleHitSwordLeft;
-    public float blinkingTime;
+    public float invincibilityTimeAfterDamage;
     
     [Header("Player movement status")]
     public bool hasControl = false;
@@ -53,8 +50,6 @@ public class Player : Deathable
     private Vector2 movement;
 
 
-    public bool isInivicble;
-    
     private float startTimeBlinking;
 
     protected override void OnStart()
@@ -92,9 +87,7 @@ public class Player : Deathable
         if (hasControl && isDashInputed() && canDash && !isDashing && dashGroundReset)
         {
             StartCoroutine(Dash());
-        }
-        
-        if (hasControl && Input.GetKeyDown(KeyCode.Joystick1Button2) && canAttack)
+        } else if (hasControl && Input.GetKeyDown(KeyCode.Joystick1Button2) && canAttack && !isAttacking && !isDashing)
         {
             Attack();
         }
@@ -175,8 +168,8 @@ public class Player : Deathable
         rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0);
         isDashing = true;
         canDash = false;
-        canAttack = false;
         animator.SetBool("isDashing", true);
+        canTakeDamage = false;
         float startX = transform.localPosition.x;
         float endX;
         if (isFacingRight)
@@ -192,16 +185,22 @@ public class Player : Deathable
         {
            rigidBody.MovePosition(new Vector2(Mathf.Lerp(startX, endX, lerpIncrement), rigidBody.position.y));
             lerpIncrement += Time.deltaTime / dashDuration;
-            if (lerpIncrement > attackDashCancel)
-            {
-                canAttack = true;
-            }
+            // if (lerpIncrement > attackDashCancel)
+            // {
+            //     canAttack = true;
+            // }
+            if (lerpIncrement > dashInvulnerabilityPercentage)
+                {
+                    canAttack = true;
+                }
             yield return null;
         }
+        rigidBody.velocity = Vector2.zero;
         isDashing = false;
         animator.SetBool("isDashing", false);
         rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
-        
+        canTakeDamage = true;
+
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
     }
@@ -232,9 +231,9 @@ public class Player : Deathable
 
     public override void TakeDamage(int amount)
     {
-        if (!isInivicble)
+        if (canTakeDamage)
         {
-            StartCoroutine(blinkingDamage());
+            StartCoroutine(BlinkingDamage());
             FMODUnity.RuntimeManager.PlayOneShot("event:/Char/Char_Hit", transform.position);
             if (health - amount <= 0)
             {
@@ -253,12 +252,12 @@ public class Player : Deathable
         
     }
 
-    IEnumerator blinkingDamage()
+    IEnumerator BlinkingDamage()
     {
         startTimeBlinking = Time.time;
-        isInivicble = true;
+        canTakeDamage = false;
 
-        while (Time.time - startTimeBlinking < blinkingTime)
+        while (Time.time - startTimeBlinking < invincibilityTimeAfterDamage)
         {
             GetComponent<SpriteRenderer>().enabled = false;
             yield return new WaitForSeconds(0.1f);
@@ -266,8 +265,7 @@ public class Player : Deathable
             yield return new WaitForSeconds(0.1f);
         }
 
-        isInivicble = false;
-
+        canTakeDamage = true;
     }
 
     protected override void OnDie()
@@ -288,10 +286,7 @@ public class Player : Deathable
 
     public void AttackAnimation()
     {
-        // attackHitbox.SetActive(true);
-       
         animator.SetBool("isAttacking", false);
-
 
         RaycastHit2D[] hits;
 
@@ -322,7 +317,14 @@ public class Player : Deathable
             Destroy(go);
         }
         canDash = true;
-        canAttack = true;
         isAttacking = false;
+        Invoke(nameof(AttackCooldown), attackCooldown);
     }
+
+    private void AttackCooldown()
+    {
+        canAttack = true;
+    }
+    
+    
 }

@@ -5,6 +5,7 @@ public class Deathable : MonoBehaviour
 {
     public int maxHealth;
     public int health;
+    public bool canTakeDamage = true;
 
     private void Start()
     {
@@ -18,16 +19,18 @@ public class Deathable : MonoBehaviour
 
     public virtual void TakeDamage(int amount)
     {
-        if (health - amount <= 0)
+        if (canTakeDamage)
         {
-            health = 0;
-            OnDie();
+            if (health - amount <= 0)
+            {
+                health = 0;
+                OnDie();
+            }
+            else
+            {
+                health -= amount;
+            }
         }
-        else
-        {
-            health -= amount;
-        }
-            
     }
 
     protected virtual void OnDie()
