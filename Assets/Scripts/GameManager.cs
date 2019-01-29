@@ -5,6 +5,7 @@ using FMOD.Studio;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -12,7 +13,7 @@ public class GameManager : MonoBehaviour
     public Player player;
     public bool gameHasStarted = false;
     public GameObject titleScreenUi;
-    public CameraManager camera;
+    public CameraManager cameraManager;
     public GameObject Door;
     public static GameManager instance;
     public Boss boss;
@@ -51,9 +52,6 @@ public class GameManager : MonoBehaviour
     public Image storyImage;
     
     
-    
-    
-    // Start is called before the first frame update
     void Awake()
     {
         if (instance == null)
@@ -61,7 +59,7 @@ public class GameManager : MonoBehaviour
             instance = this;
         }
         
-        FMODUnity.RuntimeManager.SetListenerLocation(camera.gameObject);
+        FMODUnity.RuntimeManager.SetListenerLocation(cameraManager.gameObject);
 
         musicManager = FMODUnity.RuntimeManager.CreateInstance("event:/Music/Menu_Music");
 
@@ -123,7 +121,7 @@ public class GameManager : MonoBehaviour
         player.lifeSpriteList = lifeSpriteList;
         player.lifeImage.sprite = lifeSpriteList[0];
         player.lifeImage.gameObject.SetActive(true);
-        camera.playerPosition = player.transform;
+        cameraManager.playerPosition = player.transform;
     }
 
     public void SpawnBoss()
@@ -149,7 +147,7 @@ public class GameManager : MonoBehaviour
         musicManager.start();
         boss.gameObject.SetActive(true);
         Door.SetActive(true);
-        camera.FixPositionForBossFight();
+        cameraManager.FixPositionForBossFight();
         smokeParticle.SetActive(true);
     }
 
@@ -197,8 +195,8 @@ public class GameManager : MonoBehaviour
         SpawnBoss();
         SetNightmareAmount(1);
         StartCoroutine(FadeOut(2, background));
-        camera.playerPosition = player.transform;
-        camera.isFollowingPlayer = true;
+        cameraManager.playerPosition = player.transform;
+        cameraManager.isFollowingPlayer = true;
     }
 
     public void OnWin()
