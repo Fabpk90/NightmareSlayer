@@ -23,16 +23,13 @@ public class Player : Deathable
     public float dashDuration;
     public float attackDistance;
     public int attackDamage;
-    public float attackDelay;
-    public float attackRecovery;
-    public float attackHitboxDuration;
-    public GameObject attackHitbox;
-    public GameObject attackHitboxPrefab;
+    public float attackCooldown;
     public float attackDashCancel;
+    public float dashInvulnerabilityPercentage;
     public GameObject raycastPosition;
     public GameObject particleHitSwordRight;
     public GameObject particleHitSwordLeft;
-    public float blinkingTime;
+    public float invincibilityTimeAfterDamage;
     
     [Header("Player movement status")]
     public bool hasControl = false;
@@ -44,6 +41,7 @@ public class Player : Deathable
     public bool isAttacking = false;
     public bool isOnGround;
     public bool dashGroundReset = true;
+    public bool hasJustTouchedGround = false;
 
     [Header("Life")] 
     public Image lifeImage;    
@@ -53,8 +51,6 @@ public class Player : Deathable
     private Vector2 movement;
 
 
-    public bool isInivicble;
-    
     private float startTimeBlinking;
 
     protected override void OnStart()
@@ -74,6 +70,7 @@ public class Player : Deathable
         if (!oldIsOnGround && isOnGround)
         {
             FMODUnity.RuntimeManager.PlayOneShot("event:/Char/Char_Fall", transform.position);
+            hasJustTouchedGround = true;
         }
         
         // Allow to dash if player didn't hit the ground yet after a dash
@@ -89,12 +86,17 @@ public class Player : Deathable
             willJumpNextFixedFrame = true;
         }
 
-        if (hasControl && isDashInputed() && canDash && !isDashing && dashGroundReset)
+        if (hasControl && isDashInputed() && canDash && !isDashing && dashGroundReset && !isAttacking)
         {
+            dashGroundReset = false;
+            rigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+            rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0);
+            isDashing = true;
+            canDash = false;
+            animator.SetBool("isDashing", true);
+            canTakeDamage = false;
             StartCoroutine(Dash());
-        }
-        
-        if (hasControl && Input.GetKeyDown(KeyCode.Joystick1Button2) && canAttack)
+        } else if (hasControl && Input.GetKeyDown(KeyCode.Joystick1Button2) && canAttack && !isAttacking && !isDashing)
         {
             Attack();
         }
@@ -104,6 +106,11 @@ public class Player : Deathable
 
     private void FixedUpdate()
     {
+        if (hasJustTouchedGround)
+        {
+            rigidBody.velocity = new Vector2(0, rigidBody.velocity.y);
+            hasJustTouchedGround = false;
+        }
         if (willJumpNextFixedFrame)
         {
             rigidBody.AddForce(new Vector2(0, jumpForce));
@@ -115,7 +122,8 @@ public class Player : Deathable
         
         if (hasControl && !isDashing)
         {
-            if (Input.GetAxis("Horizontal") > .15f)
+            var horizontalAxisInput = Input.GetAxis("Horizontal");
+            if (horizontalAxisInput > .15f)
             {
                 if (!isFacingRight)
                 {
@@ -126,17 +134,16 @@ public class Player : Deathable
                 {
                     if (isOnGround)
                     {
-                        rigidBody.AddForce(new Vector2(groundedMovementAcceleration, 0));
+                        rigidBody.AddForce(new Vector2(groundedMovementAcceleration * Mathf.Sqrt(Mathf.Abs(horizontalAxisInput)), 0));
                     }
                     else
                     {
-                        rigidBody.AddForce(new Vector2(airMovementAcceleration, 0));
-
+                        rigidBody.AddForce(new Vector2(airMovementAcceleration * Mathf.Sqrt(Mathf.Abs(horizontalAxisInput)), 0));
                     }
                 }
                 
             }
-            else if (Input.GetAxis("Horizontal") < -.15f)
+            else if (horizontalAxisInput < -.15f)
             {
                 if (isFacingRight)
                 {
@@ -146,11 +153,11 @@ public class Player : Deathable
                 {
                     if (isOnGround)
                     {
-                        rigidBody.AddForce(new Vector2(-1 * groundedMovementAcceleration, 0));
+                        rigidBody.AddForce(new Vector2(-1 * groundedMovementAcceleration * Mathf.Sqrt(Mathf.Abs(horizontalAxisInput)), 0));
                     }
                     else
                     {
-                        rigidBody.AddForce(new Vector2(-1 * airMovementAcceleration, 0));
+                        rigidBody.AddForce(new Vector2(-1 * airMovementAcceleration * Mathf.Sqrt(Mathf.Abs(horizontalAxisInput)), 0));
                     }
                 }
             }
@@ -170,13 +177,6 @@ public class Player : Deathable
 
     private IEnumerator Dash()
     {
-        dashGroundReset = false;
-        rigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
-        rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0);
-        isDashing = true;
-        canDash = false;
-        canAttack = false;
-        animator.SetBool("isDashing", true);
         float startX = transform.localPosition.x;
         float endX;
         if (isFacingRight)
@@ -192,16 +192,22 @@ public class Player : Deathable
         {
            rigidBody.MovePosition(new Vector2(Mathf.Lerp(startX, endX, lerpIncrement), rigidBody.position.y));
             lerpIncrement += Time.deltaTime / dashDuration;
-            if (lerpIncrement > attackDashCancel)
-            {
-                canAttack = true;
-            }
+            // if (lerpIncrement > attackDashCancel)
+            // {
+            //     canAttack = true;
+            // }
+            if (lerpIncrement > dashInvulnerabilityPercentage)
+                {
+                    canAttack = true;
+                }
             yield return null;
         }
+        rigidBody.velocity = Vector2.zero;
         isDashing = false;
         animator.SetBool("isDashing", false);
         rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
-        
+        canTakeDamage = true;
+
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
     }
@@ -209,7 +215,6 @@ public class Player : Deathable
     private void Attack()
     {
         isAttacking = true;
-        canDash = false;
         canAttack = false;
 
         
@@ -232,9 +237,9 @@ public class Player : Deathable
 
     public override void TakeDamage(int amount)
     {
-        if (!isInivicble)
+        if (canTakeDamage)
         {
-            StartCoroutine(blinkingDamage());
+            StartCoroutine(BlinkingDamage());
             FMODUnity.RuntimeManager.PlayOneShot("event:/Char/Char_Hit", transform.position);
             if (health - amount <= 0)
             {
@@ -245,20 +250,19 @@ public class Player : Deathable
             else
             {
                 health -= amount;
-                var ratio = Mathf.FloorToInt(14 - 14 * health / maxHealth);
-                print(ratio);
+                var ratio = Mathf.FloorToInt(lifeSpriteList.Count - 1 - (lifeSpriteList.Count -1) * health / maxHealth);
                 lifeImage.sprite = lifeSpriteList[ratio];
             }
         }
         
     }
 
-    IEnumerator blinkingDamage()
+    IEnumerator BlinkingDamage()
     {
         startTimeBlinking = Time.time;
-        isInivicble = true;
+        canTakeDamage = false;
 
-        while (Time.time - startTimeBlinking < blinkingTime)
+        while (Time.time - startTimeBlinking < invincibilityTimeAfterDamage)
         {
             GetComponent<SpriteRenderer>().enabled = false;
             yield return new WaitForSeconds(0.1f);
@@ -266,8 +270,7 @@ public class Player : Deathable
             yield return new WaitForSeconds(0.1f);
         }
 
-        isInivicble = false;
-
+        canTakeDamage = true;
     }
 
     protected override void OnDie()
@@ -288,10 +291,7 @@ public class Player : Deathable
 
     public void AttackAnimation()
     {
-        // attackHitbox.SetActive(true);
-       
         animator.SetBool("isAttacking", false);
-
 
         RaycastHit2D[] hits;
 
@@ -321,8 +321,14 @@ public class Player : Deathable
         {
             Destroy(go);
         }
-        canDash = true;
-        canAttack = true;
         isAttacking = false;
+        Invoke(nameof(AttackCooldown), attackCooldown);
     }
+
+    private void AttackCooldown()
+    {
+        canAttack = true;
+    }
+    
+    
 }

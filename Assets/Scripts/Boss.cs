@@ -33,7 +33,7 @@ public class Boss : Actor
     [Header("Projectile Wave")] 
     public int nbProjectile;
 
-    public float cooldownBetween;
+    public float cooldownBetweenTwoProjectiles;
 
     [Header("Movement Wave")]
     public float movementDuration;
@@ -161,7 +161,7 @@ public class Boss : Actor
         for (int i = 0; i < nbProjectile; i++)
         {
             Shoot();
-            yield return new WaitForSeconds(cooldownBetween);
+            yield return new WaitForSeconds(cooldownBetweenTwoProjectiles);
         }
         
         yield return  new WaitForSeconds(cooldownBetweenPhase);

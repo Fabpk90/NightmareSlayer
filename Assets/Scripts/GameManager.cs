@@ -5,6 +5,7 @@ using FMOD.Studio;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -12,7 +13,7 @@ public class GameManager : MonoBehaviour
     public Player player;
     public bool gameHasStarted = false;
     public GameObject titleScreenUi;
-    public CameraManager camera;
+    public CameraManager cameraManager;
     public GameObject Door;
     public static GameManager instance;
     public Boss boss;
@@ -26,6 +27,8 @@ public class GameManager : MonoBehaviour
     public GameObject earlyAnimation;
     public GameObject bossUI;
     public Slider healthSlider;
+    public Transform playerInitialPosition;
+    public Transform playerRetryPosition;
 
 
 
@@ -49,9 +52,6 @@ public class GameManager : MonoBehaviour
     public Image storyImage;
     
     
-    
-    
-    // Start is called before the first frame update
     void Awake()
     {
         if (instance == null)
@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
             instance = this;
         }
         
-        FMODUnity.RuntimeManager.SetListenerLocation(camera.gameObject);
+        FMODUnity.RuntimeManager.SetListenerLocation(cameraManager.gameObject);
 
         musicManager = FMODUnity.RuntimeManager.CreateInstance("event:/Music/Menu_Music");
 
@@ -68,17 +68,27 @@ public class GameManager : MonoBehaviour
 
     }
 
-    void Start()
+    private void Start()
     {
         StartCoroutine(TitleScreenAnimation());
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (!gameHasStarted && hasTitleScreenLoaded)
         {
-            if (Input.anyKey)
+            if (Input.GetKeyDown(KeyCode.Joystick1Button6))
+            {
+                gameHasStarted = true;
+                titleScreenUi.SetActive(false);
+                musicManager.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                ambianceManager = FMODUnity.RuntimeManager.CreateInstance("event:/Amb/Ambiant_Nightmare");
+                ambianceManager.start();
+                FMODUnity.RuntimeManager.PlayOneShot("event:/UI/Menu_Validation", transform.position);
+                SpawnPlayer(playerInitialPosition);
+                SpawnBoss();
+            }
+            else if (Input.anyKey)
             {
                 FMODUnity.RuntimeManager.PlayOneShot("event:/UI/Menu_Validation", transform.position);
                 StartCoroutine(StartGameAnimation());
@@ -102,17 +112,26 @@ public class GameManager : MonoBehaviour
         FMODUnity.RuntimeManager.PlayOneShot("event:/Char/Char_Spawn_Early", transform.position);
     }
 
-    public void SpawnPlayer()
+    public void SpawnPlayer(Transform spawnPosition)
     {
-        musicManager.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        player.hasControl = true;
-        player.lifeImage.gameObject.SetActive(true);
-        FMODUnity.RuntimeManager.SetListenerLocation(player.gameObject);
-        ambianceManager = FMODUnity.RuntimeManager.CreateInstance("event:/Amb/Ambiant_Nightmare");
-        ambianceManager.start();
+        player = Instantiate(playerPrefab, spawnPosition.position, spawnPosition.rotation).GetComponent<Player>();
         player.gameObject.SetActive(true);
-        FMODUnity.RuntimeManager.PlayOneShot("event:/UI/Menu_Validation", transform.position);
-        earlyAnimation.SetActive(false);
+        player.hasControl = true;
+        player.lifeImage = lifeImage;
+        player.lifeSpriteList = lifeSpriteList;
+        player.lifeImage.sprite = lifeSpriteList[0];
+        player.lifeImage.gameObject.SetActive(true);
+        cameraManager.playerPosition = player.transform;
+    }
+
+    public void SpawnBoss()
+    {
+        boss = Instantiate(bossPrefab).GetComponent<Boss>();
+        boss.gameObject.SetActive(false);
+        boss.player = player;
+        boss.left = bossLeftSide;
+        boss.right = bossRightSide;
+        boss.player = player;
     }
 
     public void GiveControls(bool hasControl)
@@ -128,7 +147,7 @@ public class GameManager : MonoBehaviour
         musicManager.start();
         boss.gameObject.SetActive(true);
         Door.SetActive(true);
-        camera.FixPositionForBossFight();
+        cameraManager.FixPositionForBossFight();
         smokeParticle.SetActive(true);
     }
 
@@ -172,22 +191,12 @@ public class GameManager : MonoBehaviour
         StartCoroutine(FadeIn(2, background));
         yield return new WaitForSeconds(2);
         Instantiate(bossRoomTriggerPrefab);
-        player = Instantiate(playerPrefab).GetComponent<Player>();
-        player.gameObject.SetActive(true);
-        player.hasControl = true;
-        player.lifeImage = lifeImage;
-        player.lifeSpriteList = lifeSpriteList;
-        player.lifeImage.sprite = lifeSpriteList[0];
-        player.lifeImage.gameObject.SetActive(true);
-        boss = Instantiate(bossPrefab).GetComponent<Boss>();
-        boss.gameObject.SetActive(false);
-        boss.player = player;
-        boss.left = bossLeftSide;
-        boss.right = bossRightSide;
+        SpawnPlayer(playerRetryPosition);
+        SpawnBoss();
         SetNightmareAmount(1);
         StartCoroutine(FadeOut(2, background));
-        camera.playerPosition = player.transform;
-        camera.isFollowingPlayer = true;
+        cameraManager.playerPosition = player.transform;
+        cameraManager.isFollowingPlayer = true;
     }
 
     public void OnWin()
@@ -198,6 +207,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator WinAnimation()
     {
+        player.rigidBody.velocity = Vector2.zero;
         player.hasControl = false;
         bossUI.SetActive(false);
         player.lifeImage.gameObject.SetActive(false);

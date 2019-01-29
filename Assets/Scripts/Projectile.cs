@@ -37,7 +37,7 @@ public class Projectile : MonoBehaviour
 
                 if (Player)
                 {
-                    if (!Player.isInivicble)
+                    if (Player.canTakeDamage)
                     {
                         Player.TakeDamage(damage);
                         Destroy(gameObject);
@@ -46,13 +46,13 @@ public class Projectile : MonoBehaviour
                 }
                 else
                 {
-                    actor.TakeDamage(damage);
-                    Destroy(gameObject);
+                    if (actor.canTakeDamage)
+                    {
+                        actor.TakeDamage(damage);
+                        Destroy(gameObject);
+                    }
                 }
-                    
-                
             }
-            
         }
         else if(!go.GetComponent<Projectile>())
             Destroy(gameObject);

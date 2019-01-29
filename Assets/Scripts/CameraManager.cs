@@ -20,7 +20,7 @@ public class CameraManager : MonoBehaviour
     void LateUpdate()
     {
 
-        if (isFollowingPlayer)
+        if (isFollowingPlayer && playerPosition != null)
         {
             transform.position = new Vector3(Mathf.Clamp(playerPosition.position.x, xMin, xMax), Mathf.Clamp(playerPosition.position.y + yOffset, yMin, yMax), transform.position.z);
         }
