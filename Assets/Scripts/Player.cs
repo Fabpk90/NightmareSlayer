@@ -108,7 +108,7 @@ public class Player : Deathable
     {
         if (hasJustTouchedGround)
         {
-            rigidBody.velocity = Vector2.zero;
+            rigidBody.velocity = new Vector2(0, rigidBody.velocity.y);
             hasJustTouchedGround = false;
         }
         if (willJumpNextFixedFrame)
@@ -123,7 +123,7 @@ public class Player : Deathable
         if (hasControl && !isDashing)
         {
             var horizontalAxisInput = Input.GetAxis("Horizontal");
-            if (horizontalAxisInput > .1f)
+            if (horizontalAxisInput > .15f)
             {
                 if (!isFacingRight)
                 {
@@ -134,16 +134,16 @@ public class Player : Deathable
                 {
                     if (isOnGround)
                     {
-                        rigidBody.AddForce(new Vector2(groundedMovementAcceleration * Mathf.Abs(horizontalAxisInput), 0));
+                        rigidBody.AddForce(new Vector2(groundedMovementAcceleration * Mathf.Sqrt(Mathf.Abs(horizontalAxisInput)), 0));
                     }
                     else
                     {
-                        rigidBody.AddForce(new Vector2(airMovementAcceleration * Mathf.Abs(horizontalAxisInput), 0));
+                        rigidBody.AddForce(new Vector2(airMovementAcceleration * Mathf.Sqrt(Mathf.Abs(horizontalAxisInput)), 0));
                     }
                 }
                 
             }
-            else if (horizontalAxisInput < -.1f)
+            else if (horizontalAxisInput < -.15f)
             {
                 if (isFacingRight)
                 {
@@ -153,11 +153,11 @@ public class Player : Deathable
                 {
                     if (isOnGround)
                     {
-                        rigidBody.AddForce(new Vector2(-1 * groundedMovementAcceleration * Mathf.Abs(horizontalAxisInput), 0));
+                        rigidBody.AddForce(new Vector2(-1 * groundedMovementAcceleration * Mathf.Sqrt(Mathf.Abs(horizontalAxisInput)), 0));
                     }
                     else
                     {
-                        rigidBody.AddForce(new Vector2(-1 * airMovementAcceleration * Mathf.Abs(horizontalAxisInput), 0));
+                        rigidBody.AddForce(new Vector2(-1 * airMovementAcceleration * Mathf.Sqrt(Mathf.Abs(horizontalAxisInput)), 0));
                     }
                 }
             }
@@ -250,8 +250,7 @@ public class Player : Deathable
             else
             {
                 health -= amount;
-                var ratio = Mathf.FloorToInt(14 - 14 * health / maxHealth);
-                print(ratio);
+                var ratio = Mathf.FloorToInt(lifeSpriteList.Count - 1 - (lifeSpriteList.Count -1) * health / maxHealth);
                 lifeImage.sprite = lifeSpriteList[ratio];
             }
         }
