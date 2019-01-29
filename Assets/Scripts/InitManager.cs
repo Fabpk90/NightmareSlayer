@@ -17,7 +17,11 @@ public class InitManager : MonoBehaviour
 
     private IEnumerator LoadScene()
     {
-        yield return new WaitForSeconds(3);
+        while(!FMODUnity.RuntimeManager.HasBanksLoaded)
+            yield return new WaitForSeconds(0.2f);
+        
+        yield return new WaitForSeconds(2f);
         SceneManager.LoadScene(1);
+        
     }
 }
