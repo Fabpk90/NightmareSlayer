@@ -180,16 +180,17 @@ public class GameManager : MonoBehaviour
     
     private IEnumerator OnDeathRetryBoss()
     {
-        Destroy(boss.gameObject);
+        player.gameObject.SetActive(false);
         bossUI.SetActive(false);
         healthSlider.value = 1;
         player.lifeImage.gameObject.SetActive(false);
         Destroy(player.gameObject);
-        Door.SetActive(false);
         musicManager.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         ambianceManager.start();
         StartCoroutine(FadeIn(2, background));
         yield return new WaitForSeconds(2);
+        Destroy(boss.gameObject);
+        Door.SetActive(false);
         Instantiate(bossRoomTriggerPrefab);
         SpawnPlayer(playerRetryPosition);
         SpawnBoss();
@@ -197,6 +198,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(FadeOut(2, background));
         cameraManager.playerPosition = player.transform;
         cameraManager.isFollowingPlayer = true;
+        player.hasControl = true;
     }
 
     public void OnWin()

@@ -42,6 +42,7 @@ public class Player : Deathable
     public bool isOnGround;
     public bool dashGroundReset = true;
     public bool hasJustTouchedGround = false;
+    public bool isDead = false;
 
     [Header("Life")] 
     public Image lifeImage;    
@@ -81,12 +82,12 @@ public class Player : Deathable
         
         animator.SetBool("isOnGround", isOnGround);
         
-        if (hasControl && isOnGround && Input.GetKeyDown(KeyCode.Joystick1Button0) && !isDashing)
+        if (hasControl && isOnGround && IsJumpInputed() && !isDashing)
         {
             willJumpNextFixedFrame = true;
         }
 
-        if (hasControl && isDashInputed() && canDash && !isDashing && dashGroundReset && !isAttacking)
+        if (hasControl && IsDashInputed() && canDash && !isDashing && dashGroundReset && !isAttacking)
         {
             dashGroundReset = false;
             rigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
@@ -96,7 +97,7 @@ public class Player : Deathable
             animator.SetBool("isDashing", true);
             canTakeDamage = false;
             StartCoroutine(Dash());
-        } else if (hasControl && Input.GetKeyDown(KeyCode.Joystick1Button2) && canAttack && !isAttacking && !isDashing)
+        } else if (hasControl && IsAttackInputed() && canAttack && !isAttacking && !isDashing)
         {
             Attack();
         }
@@ -122,7 +123,7 @@ public class Player : Deathable
         
         if (hasControl && !isDashing)
         {
-            var horizontalAxisInput = Input.GetAxis("Horizontal");
+            var horizontalAxisInput = MovemementInput();
             if (horizontalAxisInput > .15f)
             {
                 if (!isFacingRight)
@@ -130,7 +131,7 @@ public class Player : Deathable
                     FlipCharacter();
                 }
 
-                if (rigidBody.velocity.x < maxVelocityX)
+                if (rigidBody.velocity.x < maxVelocityX * Mathf.Abs(horizontalAxisInput))
                 {
                     if (isOnGround)
                     {
@@ -149,7 +150,7 @@ public class Player : Deathable
                 {
                     FlipCharacter();
                 }
-                if (rigidBody.velocity.x > -1 * maxVelocityX)
+                if (rigidBody.velocity.x > -1 * maxVelocityX * Mathf.Abs(horizontalAxisInput))
                 {
                     if (isOnGround)
                     {
@@ -171,6 +172,10 @@ public class Player : Deathable
     private void FlipCharacter()
     {
         isFacingRight = !isFacingRight;
+        if (isOnGround)
+        {
+            rigidBody.velocity = new Vector2(0, rigidBody.velocity.y);
+        }
         float newScaleX = transform.localScale.x * -1;
         transform.localScale = new Vector3(newScaleX, transform.localScale.y, transform.localScale.z);
     }
@@ -223,16 +228,44 @@ public class Player : Deathable
 
     }
 
-    private bool isDashInputed()
+    private bool IsDashInputed()
     {
-        if (Input.GetKeyDown(KeyCode.Joystick1Button4) 
-            || Input.GetKeyDown(KeyCode.Joystick1Button5) 
-            || Input.GetAxis("DashLeft") > 0.15f
-            || Input.GetAxis("DashRight") > 0.15f)
+        return Input.GetKeyDown(KeyCode.Joystick1Button4) 
+               || Input.GetKeyDown(KeyCode.Joystick1Button5) 
+               || Input.GetAxis("DashLeft") > 0.15f
+               || Input.GetAxis("DashRight") > 0.15f
+               || Input.GetKeyDown(KeyCode.Mouse1)
+               || Input.GetKeyDown(KeyCode.LeftShift);
+    }
+
+    private float MovemementInput()
+    {
+        if (Input.GetKey(KeyCode.A)
+            || Input.GetKey(KeyCode.Q))
         {
-            return true;
+            return -1;
         }
-        return false;
+        
+        if (Input.GetKey(KeyCode.D))
+        {
+            return 1;
+        }
+
+        return Input.GetAxis("Horizontal");
+    }
+
+    private bool IsAttackInputed()
+    {
+        return Input.GetKeyDown(KeyCode.Joystick1Button2)
+               || Input.GetKeyDown(KeyCode.Mouse0);
+    }
+
+    private bool IsJumpInputed()
+    {
+        return Input.GetKeyDown(KeyCode.Joystick1Button0)
+               || Input.GetKeyDown(KeyCode.Space)
+               || Input.GetKeyDown(KeyCode.Z)
+               || Input.GetKeyDown(KeyCode.W);
     }
 
     public override void TakeDamage(int amount)
@@ -243,8 +276,6 @@ public class Player : Deathable
             FMODUnity.RuntimeManager.PlayOneShot("event:/Char/Char_Hit", transform.position);
             if (health - amount <= 0)
             {
-                lifeImage.sprite = lifeSpriteList[14];
-                health = 0;
                 OnDie();
             }
             else
@@ -275,7 +306,15 @@ public class Player : Deathable
 
     protected override void OnDie()
     {
-        gameObject.SetActive(false);
+        isDead = true;
+        lifeImage.sprite = lifeSpriteList[14];
+        health = 0;
+        animator.SetBool("isDead", true);
+        hasControl = false;
+    }
+    
+    public void DeathAnimationEnd()
+    {
         GameManager.instance.RetryBoss();
     }
 

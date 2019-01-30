@@ -127,7 +127,7 @@ public class Boss : Actor
 
     IEnumerator WaveManager()
     {
-        while (true)
+        while (!player.isDead)
         {
             if (nextWaveIsToBeActivated)
             {
